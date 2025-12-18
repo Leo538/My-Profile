@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, inject } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, inject, ViewChild, ElementRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -6,10 +6,9 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   template: `
     <div 
+      #cursorElement
       class="cursor-follower"
       [class.cursor-follower--hover]="isHovering"
-      [style.left.px]="x"
-      [style.top.px]="y"
       aria-hidden="true"
     ></div>
   `,
@@ -40,12 +39,12 @@ import { isPlatformBrowser } from '@angular/common';
     }
   `]
 })
-export class CursorFollowerComponent implements OnInit, OnDestroy {
+export class CursorFollowerComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('cursorElement', { static: false }) cursorElement!: ElementRef<HTMLElement>;
+  
   private platformId = inject(PLATFORM_ID);
   private animationFrameId: number | null = null;
   
-  x = 0;
-  y = 0;
   isHovering = false;
   
   private targetX = 0;
@@ -54,14 +53,19 @@ export class CursorFollowerComponent implements OnInit, OnDestroy {
   private currentY = 0;
   private readonly lerpFactor = 0.15;
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
     this.setupEventListeners();
     this.setupInteractiveElements();
-    this.animate();
+    
+    // Start animation after view initialization to avoid ExpressionChangedAfterItHasBeenCheckedError
+    // Use setTimeout to ensure it runs after the current change detection cycle
+    setTimeout(() => {
+      this.animate();
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -82,14 +86,14 @@ export class CursorFollowerComponent implements OnInit, OnDestroy {
 
   private onMouseEnter = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
-    if (this.isInteractiveElement(target)) {
+    if (target && this.isInteractiveElement(target)) {
       this.isHovering = true;
     }
   };
 
   private onMouseLeave = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
-    if (this.isInteractiveElement(target)) {
+    if (target && this.isInteractiveElement(target)) {
       this.isHovering = false;
     }
   };
@@ -121,7 +125,11 @@ export class CursorFollowerComponent implements OnInit, OnDestroy {
     });
   }
 
-  private isInteractiveElement(element: HTMLElement): boolean {
+  private isInteractiveElement(element: HTMLElement | null): boolean {
+    if (!element || !element.tagName) {
+      return false;
+    }
+    
     const tagName = element.tagName.toLowerCase();
     const role = element.getAttribute('role');
     const tabIndex = element.getAttribute('tabindex');
@@ -145,8 +153,13 @@ export class CursorFollowerComponent implements OnInit, OnDestroy {
     this.currentX += (this.targetX - this.currentX) * this.lerpFactor;
     this.currentY += (this.targetY - this.currentY) * this.lerpFactor;
 
-    this.x = this.currentX;
-    this.y = this.currentY;
+    // Update DOM directly to avoid ExpressionChangedAfterItHasBeenCheckedError
+    // This bypasses Angular's change detection for position updates
+    const element = this.cursorElement?.nativeElement;
+    if (element) {
+      element.style.left = `${this.currentX}px`;
+      element.style.top = `${this.currentY}px`;
+    }
 
     this.animationFrameId = requestAnimationFrame(() => this.animate());
   }

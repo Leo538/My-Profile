@@ -66,3 +66,4 @@ const EMAILJS_CONFIG = {
 - Los correos llegarán directamente a tu Gmail
 - No necesitas un servidor backend
 
+

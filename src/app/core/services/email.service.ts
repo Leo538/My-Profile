@@ -11,9 +11,9 @@ import { isPlatformBrowser } from '@angular/common';
 // 6. Reemplaza los valores abajo
 
 const EMAILJS_CONFIG = {
-  publicKey: 'YOUR_PUBLIC_KEY', // Reemplaza con tu Public Key de EmailJS
-  serviceId: 'YOUR_SERVICE_ID', // Reemplaza con tu Service ID
-  templateId: 'YOUR_TEMPLATE_ID', // Reemplaza con tu Template ID
+  publicKey: 'hyTv-8T7KhWdh9gwb', // Public Key de EmailJS
+  serviceId: 'service_k7ox0uq', // Service ID de Gmail
+  templateId: 'template_71ymkwq', // Template ID de la plantilla "Contáctenos"
   recipientEmail: 'lozadaleonel15@gmail.com', // Tu email de destino
 };
 
@@ -54,10 +54,13 @@ export class EmailService {
 
     try {
       const templateParams = {
-        from_name: data.name,
-        from_email: data.email,
-        message: data.message,
-        to_email: EMAILJS_CONFIG.recipientEmail,
+        name: data.name, // Para {{name}} en "De Nombre"
+        nombre: data.name, // Para {{nombre}} en el contenido
+        email: data.email, // Para {{email}} en "Responder a" y en el contenido
+        correo: data.email, // Variable alternativa para mostrar el email en el contenido
+        mensaje: data.message, // Para {{mensaje}} en el contenido
+        message: data.message, // Variable alternativa para el mensaje
+        tiempo: new Date().toLocaleString('es-ES'), // Para {{tiempo}} en el contenido
       };
 
       const response = await this.emailjs.send(
@@ -80,4 +83,5 @@ export class EmailService {
     }
   }
 }
+
 
