@@ -1,6 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { GithubService } from '../../core/services/github.service';
 import { TranslationService } from '../../core/services/translation.service';
@@ -9,7 +7,7 @@ import { Project } from '../../core/data/profile.data';
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ProjectCardComponent],
+  imports: [ProjectCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">

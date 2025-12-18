@@ -1,13 +1,12 @@
 import { Component, signal, inject } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import { profileData, Skill, SkillCategory } from '../../core/data/profile.data';
-import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../core/services/translation.service';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [SectionHeaderComponent, CommonModule],
+  imports: [SectionHeaderComponent],
   template: `
     <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8">
       <div class="max-w-6xl mx-auto">

@@ -1,12 +1,11 @@
 import { Component, Input, inject } from '@angular/core';
 import { Project } from '../../../core/data/profile.data';
-import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../../core/services/translation.service';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <article 
       class="group border-2 border-black p-6 sm:p-8 hover:translate-x-1 hover:translate-y-1 transition-transform duration-300 focus-within:ring-2 focus-within:ring-black focus-within:ring-offset-2"

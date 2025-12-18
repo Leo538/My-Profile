@@ -1,11 +1,10 @@
 import { Component, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div 
       class="welcome-screen fixed inset-0 bg-black z-[100] flex items-center justify-center transition-opacity duration-1000"

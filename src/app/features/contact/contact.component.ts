@@ -33,24 +33,6 @@ import { EmailService } from '../../core/services/email.service';
                   {{ profileData.phone }}
                 </a>
               }
-              
-              <nav [attr.aria-label]="t.contact.socialLinksLabel">
-                <ul class="flex flex-wrap gap-4">
-                  @for (link of profileData.socialLinks; track link.name) {
-                    <li>
-                      <a 
-                        [href]="link.url"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-sm font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
-                        [attr.aria-label]="t.contact.visitLabel + ' ' + link.name"
-                      >
-                        {{ link.name }}
-                      </a>
-                    </li>
-                  }
-                </ul>
-              </nav>
             </div>
           </div>
 

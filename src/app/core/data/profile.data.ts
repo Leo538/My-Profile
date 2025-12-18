@@ -87,6 +87,8 @@ export const profileData: ProfileData = {
   socialLinks: [
     { name: 'GitHub', url: 'https://github.com/Leo538' },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/leonel-barros-75b655264/' },
+    { name: 'Facebook', url: 'https://www.facebook.com/leonel.barros.32991/' },
+    { name: 'Instagram', url: 'https://www.instagram.com/leonellozada11/' },
   ],
   experience: [
     {
