@@ -1,81 +1,109 @@
-import { Component, OnInit, OnDestroy, PLATFORM_ID, inject, signal, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 import { profileData } from '../../core/data/profile.data';
 import { TranslationService } from '../../core/services/translation.service';
-import { gsap } from 'gsap';
+import { TypingAnimationDirective } from '../../shared/directives/typing-animation.directive';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TypingAnimationDirective],
   template: `
-    <section 
-      #heroSection
-      id="hero" 
-      class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 relative overflow-hidden"
-      [class.hero-scrolled]="isScrolled()"
-    >
-      <!-- Gota negra con GSAP -->
-      <div 
-        #blobElement
-        class="absolute w-96 h-96 bg-black pointer-events-none mix-blend-difference z-20 blob-shape"
-        [style.left.px]="blobX() - 192"
-        [style.top.px]="blobY() - 192"
-      ></div>
-      
-      <div class="max-w-4xl mx-auto text-center relative z-10">
-        <h1 
-          #nameElement
-          class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 leading-tight transition-all duration-1000 hero-text"
-          [style.transform]="'translateY(' + nameOffset() + 'px)'"
-          [style.opacity]="nameOpacity()"
-        >
-          {{ profileData.name }}
-        </h1>
-        
-        <div 
-          #roleElement
-          class="flex flex-wrap justify-center gap-3 mb-8 transition-all duration-1000 delay-100 hero-text"
-          [style.transform]="'translateY(' + roleOffset() + 'px)'"
-          [style.opacity]="roleOpacity()"
-        >
-          @for (role of profileData.roles; track role) {
-            <span class="text-lg sm:text-xl font-bold px-4 py-2 border-2 border-black hover:bg-black hover:text-white transition-colors cursor-default">
-              {{ role }}
-            </span>
-          }
-        </div>
+    <section id="hero" class="hero-section min-h-screen flex items-center px-4 sm:px-6 lg:px-8 pt-20 pb-12 bg-white">
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <!-- Columna izquierda: Contenido -->
+          <div class="text-left">
+            <!-- Saludo -->
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-black/90 mb-4">
+              {{ t.hero.greeting }} {{ profileData.name.split(' ')[0] }}
+            </h1>
 
-        <p 
-          #bioElement
-          class="text-lg sm:text-xl text-black/70 max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-1000 delay-200 hero-text"
-          [style.transform]="'translateY(' + bioOffset() + 'px)'"
-          [style.opacity]="bioOpacity()"
-        >
-          {{ profileData.bio }}
-        </p>
+            <!-- Campo de texto dinámico con animación typing -->
+            <div class="dynamic-text-container mb-6">
+              <div 
+                class="dynamic-text-box bg-gray-100 rounded-lg px-6 py-4 inline-block"
+                [style.opacity]="textOpacity()"
+              >
+                <span 
+                  typingAnimation
+                  [texts]="t.hero.roles"
+                  [speed]="80"
+                  [delay]="800"
+                  [loop]="true"
+                  [deleteSpeed]="50"
+                  [pauseBetween]="3000"
+                  class="text-2xl sm:text-3xl font-semibold text-black/80"
+                ></span>
+              </div>
+            </div>
 
-        <div 
-          #buttonsElement
-          class="flex flex-wrap justify-center gap-4 transition-all duration-1000 delay-300 hero-text"
-          [style.transform]="'translateY(' + buttonsOffset() + 'px)'"
-          [style.opacity]="buttonsOpacity()"
-        >
-          <a 
-            href="#projects"
-            class="px-8 py-3 bg-black text-white font-bold hover:bg-black/90 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            [attr.aria-label]="t.hero.viewWork"
-          >
-            {{ t.hero.viewWork }}
-          </a>
-          <a 
-            href="#contact"
-            class="px-8 py-3 border-2 border-black font-bold hover:bg-black hover:text-white transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            [attr.aria-label]="t.hero.contactMe"
-          >
-            {{ t.hero.contactMe }}
-          </a>
+            <!-- Bio -->
+            <p class="text-lg sm:text-xl text-black/70 mb-8 leading-relaxed max-w-xl">
+              {{ t.about.bio }}
+            </p>
+
+            <!-- Botones CTA -->
+            <div class="flex flex-wrap gap-4 mb-8">
+              <a 
+                href="#contact"
+                class="cta-button cta-button--outline px-6 py-3 rounded-lg border-2 border-black font-semibold text-black hover:bg-black hover:text-white transition-colors flex items-center gap-2"
+              >
+                {{ t.hero.hire }}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
+              <a 
+                href="#projects"
+                class="cta-button cta-button--solid px-6 py-3 rounded-lg bg-black text-white font-semibold hover:bg-black/90 transition-colors flex items-center gap-2"
+              >
+                {{ t.hero.viewWork }}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Enlaces sociales -->
+            <div class="social-links">
+              <p class="text-sm font-bold text-black/60 mb-3 uppercase tracking-wider">{{ t.hero.followMe }}</p>
+              <div class="flex gap-4">
+                @for (link of profileData.socialLinks; track link.name) {
+                  <a 
+                    [href]="link.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-icon w-10 h-10 rounded-lg border-2 border-black/20 flex items-center justify-center hover:border-black hover:bg-black/5 transition-colors"
+                    [attr.aria-label]="'Visitar ' + link.name"
+                  >
+                    @if (link.name === 'GitHub') {
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    }
+                    @if (link.name === 'LinkedIn') {
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      </svg>
+                    }
+                  </a>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna derecha: Ilustración (placeholder) -->
+          <div class="illustration-container hidden lg:block">
+            <div class="illustration-wrapper bg-white rounded-2xl shadow-xl p-8 border border-black/10">
+              <div class="illustration-placeholder w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
+                <svg class="w-32 h-32 text-black/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -84,69 +112,48 @@ import { gsap } from 'gsap';
     :host {
       display: block;
     }
-    
-    .hero-scrolled h1 {
-      font-size: 3rem !important;
-    }
-    
-    @media (min-width: 640px) {
-      .hero-scrolled h1 {
-        font-size: 3.5rem !important;
-      }
-    }
-    
-    @media (min-width: 1024px) {
-      .hero-scrolled h1 {
-        font-size: 4rem !important;
-      }
+
+    .hero-section {
+      position: relative;
     }
 
-    .hero-text {
-      transition: color 0.2s ease;
+    .dynamic-text-container {
+      min-height: 60px;
     }
 
-    .blob-shape {
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-      filter: blur(0px);
+    .dynamic-text-box {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    @media (pointer: coarse), (max-width: 767px) {
-      .blob-shape {
-        display: none;
-      }
+    .cta-button {
+      transition: all 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .social-icon {
+      transition: all 0.2s ease;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-2px);
+    }
+
+    .illustration-wrapper {
+      position: relative;
+      overflow: hidden;
     }
   `]
 })
-export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('blobElement', { static: false }) blobElement?: ElementRef<HTMLDivElement>;
-  @ViewChild('heroSection', { static: false }) heroSection?: ElementRef<HTMLElement>;
-  @ViewChild('nameElement', { static: false }) nameElement?: ElementRef<HTMLElement>;
-  @ViewChild('roleElement', { static: false }) roleElement?: ElementRef<HTMLElement>;
-  @ViewChild('bioElement', { static: false }) bioElement?: ElementRef<HTMLElement>;
-  @ViewChild('buttonsElement', { static: false }) buttonsElement?: ElementRef<HTMLElement>;
-
+export class HeroComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private translationService = inject(TranslationService);
-  private scrollListener?: () => void;
-  private mouseListener?: (e: MouseEvent) => void;
-  private gsapContext?: gsap.Context;
-  
+
   profileData = profileData;
-  isScrolled = signal(false);
-  
-  // Gota negra
-  blobX = signal(0);
-  blobY = signal(0);
-  
-  // Animaciones de entrada
-  nameOffset = signal(50);
-  nameOpacity = signal(0);
-  roleOffset = signal(50);
-  roleOpacity = signal(0);
-  bioOffset = signal(50);
-  bioOpacity = signal(0);
-  buttonsOffset = signal(50);
-  buttonsOpacity = signal(0);
+  textOpacity = signal(0);
 
   get t() {
     return this.translationService.t;
@@ -157,185 +164,9 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.animateOnLoad();
-    this.setupScrollListener();
-  }
-
-  ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
+    // Mostrar el campo de texto después de un delay
     setTimeout(() => {
-      this.setupBlobAnimation();
-    }, 100);
-  }
-
-  ngOnDestroy(): void {
-    if (this.scrollListener && isPlatformBrowser(this.platformId)) {
-      window.removeEventListener('scroll', this.scrollListener);
-    }
-    if (this.mouseListener && isPlatformBrowser(this.platformId)) {
-      document.removeEventListener('mousemove', this.mouseListener);
-    }
-    if (this.gsapContext) {
-      this.gsapContext.kill();
-    }
-  }
-
-  private animateOnLoad(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    setTimeout(() => {
-      this.nameOffset.set(0);
-      this.nameOpacity.set(1);
-    }, 100);
-
-    setTimeout(() => {
-      this.roleOffset.set(0);
-      this.roleOpacity.set(1);
-    }, 200);
-
-    setTimeout(() => {
-      this.bioOffset.set(0);
-      this.bioOpacity.set(1);
-    }, 300);
-
-    setTimeout(() => {
-      this.buttonsOffset.set(0);
-      this.buttonsOpacity.set(1);
-    }, 400);
-  }
-
-  private setupBlobAnimation(): void {
-    if (!isPlatformBrowser(this.platformId) || !this.blobElement?.nativeElement || !this.heroSection?.nativeElement) {
-      return;
-    }
-
-    const blob = this.blobElement.nativeElement;
-    const hero = this.heroSection.nativeElement;
-    
-    // Inicializar posición de la gota
-    this.blobX.set(window.innerWidth / 2);
-    this.blobY.set(window.innerHeight / 2);
-
-    // Crear contexto GSAP
-    this.gsapContext = gsap.context(() => {
-      // Animación inicial
-      gsap.set(blob, {
-        x: window.innerWidth / 2 - 192,
-        y: window.innerHeight / 2 - 192,
-        scale: 0.8,
-      });
-
-      // Listener para mover la gota
-      this.mouseListener = (e: MouseEvent) => {
-        const rect = hero.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // Usar GSAP para animación suave
-        gsap.to(blob, {
-          x: x - 192,
-          y: y - 192,
-          duration: 0.5,
-          ease: 'power2.out',
-        });
-
-        // Verificar colisión con texto
-        this.checkTextCollision(x, y);
-      };
-
-      document.addEventListener('mousemove', this.mouseListener, { passive: true });
-    });
-  }
-
-  private checkTextCollision(blobX: number, blobY: number): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    const elements = [
-      this.nameElement?.nativeElement,
-      this.roleElement?.nativeElement,
-      this.bioElement?.nativeElement,
-      this.buttonsElement?.nativeElement,
-    ].filter(el => el !== undefined) as HTMLElement[];
-
-    const blobRadius = 192; // Radio de la gota (384px / 2)
-
-    elements.forEach(element => {
-      const rect = element.getBoundingClientRect();
-      const heroRect = this.heroSection?.nativeElement?.getBoundingClientRect();
-      
-      if (!heroRect) return;
-
-      // Calcular posición relativa del elemento
-      const elementLeft = rect.left - heroRect.left;
-      const elementTop = rect.top - heroRect.top;
-      const elementRight = elementLeft + rect.width;
-      const elementBottom = elementTop + rect.height;
-
-      // Verificar si la gota intersecta con el elemento
-      const blobLeft = blobX - blobRadius;
-      const blobTop = blobY - blobRadius;
-      const blobRight = blobX + blobRadius;
-      const blobBottom = blobY + blobRadius;
-
-      const isIntersecting = !(
-        blobRight < elementLeft ||
-        blobLeft > elementRight ||
-        blobBottom < elementTop ||
-        blobTop > elementBottom
-      );
-
-      if (isIntersecting) {
-        gsap.to(element, {
-          color: '#ffffff',
-          duration: 0.2,
-        });
-      } else {
-        gsap.to(element, {
-          color: '',
-          duration: 0.2,
-        });
-      }
-    });
-  }
-
-  private setupScrollListener(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    this.scrollListener = () => {
-      const scrollY = window.scrollY;
-      const heroSection = document.getElementById('hero');
-      
-      if (heroSection) {
-        const heroHeight = heroSection.offsetHeight;
-        const scrollProgress = Math.min(scrollY / heroHeight, 1);
-        
-        this.isScrolled.set(scrollY > 50);
-        
-        // Efecto parallax sutil
-        this.nameOffset.set(scrollProgress * 20);
-        this.roleOffset.set(scrollProgress * 15);
-        this.bioOffset.set(scrollProgress * 10);
-        this.buttonsOffset.set(scrollProgress * 5);
-        
-        // Opacidad al hacer scroll
-        if (scrollY < heroHeight) {
-          this.nameOpacity.set(1 - scrollProgress * 0.3);
-          this.roleOpacity.set(1 - scrollProgress * 0.2);
-          this.bioOpacity.set(1 - scrollProgress * 0.2);
-          this.buttonsOpacity.set(1 - scrollProgress * 0.2);
-        }
-      }
-    };
-
-    window.addEventListener('scroll', this.scrollListener, { passive: true });
+      this.textOpacity.set(1);
+    }, 500);
   }
 }

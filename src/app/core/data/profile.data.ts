@@ -29,6 +29,23 @@ export interface AboutSection {
   content: string;
 }
 
+export interface Experience {
+  position: string;
+  positionEn: string;
+  company: string;
+  description: string;
+  descriptionEn: string;
+  period: string;
+}
+
+export interface Service {
+  title: string;
+  titleEn: string;
+  description: string;
+  descriptionEn: string;
+  icon?: string;
+}
+
 export interface ProfileData {
   name: string;
   roles: string[];
@@ -39,6 +56,8 @@ export interface ProfileData {
   phone?: string;
   university?: string;
   aboutSections?: AboutSection[];
+  experience?: Experience[];
+  services?: Service[];
 }
 
 export const profileData: ProfileData = {
@@ -68,6 +87,36 @@ export const profileData: ProfileData = {
   socialLinks: [
     { name: 'GitHub', url: 'https://github.com/Leo538' },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/leonel-barros-75b655264/' },
+  ],
+  experience: [
+    {
+      position: 'Desarrollador Web',
+      positionEn: 'Web Developer',
+      company: 'Freelance',
+      description: 'Desarrollo de aplicaciones web modernas y responsivas.',
+      descriptionEn: 'Development of modern and responsive web applications.',
+      period: '2023 - Actualmente',
+    },
+  ],
+  services: [
+    {
+      title: 'Desarrollo Web',
+      titleEn: 'Web Development',
+      description: 'Creación de aplicaciones web modernas y responsivas con las últimas tecnologías',
+      descriptionEn: 'Creation of modern and responsive web applications with the latest technologies',
+    },
+    {
+      title: 'Ingeniería de Software',
+      titleEn: 'Software Engineering',
+      description: 'Diseño e implementación de soluciones de software escalables y mantenibles',
+      descriptionEn: 'Design and implementation of scalable and maintainable software solutions',
+    },
+    {
+      title: 'Full Stack',
+      titleEn: 'Full Stack',
+      description: 'Soluciones completas desde el backend hasta el frontend, optimizadas y escalables',
+      descriptionEn: 'Complete solutions from backend to frontend, optimized and scalable',
+    },
   ],
   skills: [
     // Frontend

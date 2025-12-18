@@ -3,6 +3,7 @@ import { SectionHeaderComponent } from '../../shared/components/section-header/s
 import { profileData } from '../../core/data/profile.data';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../core/services/translation.service';
+import { EmailService } from '../../core/services/email.service';
 
 @Component({
   selector: 'app-contact',
@@ -17,7 +18,7 @@ import { TranslationService } from '../../core/services/translation.service';
           <div>
             <h3 class="text-2xl font-bold mb-4">{{ t.contact.workTogether }}</h3>
             <p class="text-white/80 mb-6 leading-relaxed">
-              Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tus visiones.
+              {{ t.contact.description }}
             </p>
             
             <div class="space-y-4">
@@ -27,13 +28,13 @@ import { TranslationService } from '../../core/services/translation.service';
                   target="_blank"
                   rel="noopener noreferrer"
                   class="block text-lg font-bold hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black transition-opacity hover:opacity-80"
-                  [attr.aria-label]="'Contactar por WhatsApp: ' + profileData.phone"
+                  [attr.aria-label]="t.contact.whatsAppLabel + ' ' + profileData.phone"
                 >
                   {{ profileData.phone }}
                 </a>
               }
               
-              <nav aria-label="Enlaces sociales">
+              <nav [attr.aria-label]="t.contact.socialLinksLabel">
                 <ul class="flex flex-wrap gap-4">
                   @for (link of profileData.socialLinks; track link.name) {
                     <li>
@@ -42,7 +43,7 @@ import { TranslationService } from '../../core/services/translation.service';
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-sm font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
-                        [attr.aria-label]="'Visitar ' + link.name"
+                        [attr.aria-label]="t.contact.visitLabel + ' ' + link.name"
                       >
                         {{ link.name }}
                       </a>
@@ -56,7 +57,7 @@ import { TranslationService } from '../../core/services/translation.service';
           <form 
             (ngSubmit)="onSubmit()"
             class="space-y-6"
-            [attr.aria-label]="'Formulario de contacto'"
+            [attr.aria-label]="t.contact.formLabel"
           >
             <div>
               <label 
@@ -91,7 +92,7 @@ import { TranslationService } from '../../core/services/translation.service';
                 name="email"
                 required
                 class="w-full px-4 py-3 bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
-                placeholder="tu.email@ejemplo.com"
+                [placeholder]="t.contact.emailPlaceholder"
                 aria-required="true"
               />
             </div>
@@ -110,7 +111,7 @@ import { TranslationService } from '../../core/services/translation.service';
                 required
                 rows="5"
                 class="w-full px-4 py-3 bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent resize-none"
-                placeholder="Cuéntame sobre tu proyecto..."
+                [placeholder]="t.contact.messagePlaceholder"
                 aria-required="true"
               ></textarea>
             </div>
@@ -142,6 +143,7 @@ import { TranslationService } from '../../core/services/translation.service';
 })
 export class ContactComponent {
   private translationService = inject(TranslationService);
+  private emailService = inject(EmailService);
   profileData = profileData;
   isSubmitting = signal(false);
   submitMessage = signal<string | null>(null);
@@ -162,32 +164,65 @@ export class ContactComponent {
     if (phone.startsWith('0')) {
       phone = phone.substring(1);
     }
-    const message = encodeURIComponent('Hola, me gustaría contactarte sobre...');
+    const message = encodeURIComponent(this.t.contact.messagePlaceholder);
     return `https://wa.me/593${phone}?text=${message}`;
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.isSubmitting()) {
+      return;
+    }
+
+    // Validar formulario
+    if (!this.formData.name || !this.formData.email || !this.formData.message) {
+      this.isSuccess.set(false);
+      const errorMsg = this.t.contact.name === 'Nombre' 
+        ? 'Por favor completa todos los campos' 
+        : 'Please fill in all fields';
+      this.submitMessage.set(errorMsg);
+      setTimeout(() => {
+        this.submitMessage.set(null);
+      }, 3000);
       return;
     }
 
     this.isSubmitting.set(true);
     this.submitMessage.set(null);
 
-    setTimeout(() => {
-      this.isSubmitting.set(false);
-      this.isSuccess.set(true);
-      this.submitMessage.set(this.t.contact.success);
-      
-      this.formData = {
-        name: '',
-        email: '',
-        message: ''
-      };
+    try {
+      const result = await this.emailService.sendEmail({
+        name: this.formData.name,
+        email: this.formData.email,
+        message: this.formData.message,
+      });
 
+      this.isSubmitting.set(false);
+      this.isSuccess.set(result.success);
+      this.submitMessage.set(result.success ? this.t.contact.success : result.message);
+
+      if (result.success) {
+        // Limpiar formulario solo si el envío fue exitoso
+        this.formData = {
+          name: '',
+          email: '',
+          message: ''
+        };
+      }
+
+      // Ocultar mensaje después de 5 segundos
       setTimeout(() => {
         this.submitMessage.set(null);
       }, 5000);
-    }, 1000);
+    } catch (error) {
+      this.isSubmitting.set(false);
+      this.isSuccess.set(false);
+      const errorMsg = this.t.contact.name === 'Nombre'
+        ? 'Error al enviar el mensaje. Por favor intenta nuevamente.'
+        : 'Error sending message. Please try again.';
+      this.submitMessage.set(errorMsg);
+      setTimeout(() => {
+        this.submitMessage.set(null);
+      }, 5000);
+    }
   }
 }

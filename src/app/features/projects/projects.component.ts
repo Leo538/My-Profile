@@ -12,9 +12,17 @@ import { Project } from '../../core/data/profile.data';
   imports: [CommonModule, SectionHeaderComponent, ProjectCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 bg-black/5">
+    <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div class="max-w-7xl mx-auto">
-        <app-section-header number="02" [title]="t.projects.title" />
+        <!-- Header -->
+        <div class="mb-16">
+          <h2 class="text-4xl sm:text-5xl font-bold text-black/90 mb-4">
+            {{ t.projects.title }}
+          </h2>
+          <p class="text-lg text-black/70">
+            {{ t.projects.subtitle }}
+          </p>
+        </div>
         
         @if (isLoading()) {
           <div class="flex items-center justify-center py-20">
@@ -38,8 +46,8 @@ import { Project } from '../../core/data/profile.data';
             <p class="text-black/60 font-medium">{{ t.projects.noProjects }}</p>
           </div>
         } @else {
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            @for (project of projects(); track project.id) {
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            @for (project of projects().slice(0, 3); track project.id) {
               <app-project-card [project]="project" />
             }
           </div>

@@ -61,6 +61,14 @@ import { TranslationService } from '../../../core/services/translation.service';
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+      display: block;
+      height: 100%;
+    }
+    
+    article {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
   `]
 })
