@@ -103,13 +103,15 @@ import { TypingAnimationDirective } from '../../shared/directives/typing-animati
             </div>
           </div>
 
-          <!-- Columna derecha: Ilustración (placeholder) -->
+          <!-- Columna derecha: Foto de perfil -->
           <div class="illustration-container hidden lg:block">
             <div class="illustration-wrapper bg-white rounded-2xl shadow-xl p-8 border border-black/10">
-              <div class="illustration-placeholder w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-                <svg class="w-32 h-32 text-black/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
+              <div class="illustration-placeholder w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/assets/images/foto.png" 
+                  alt="Foto de perfil de Leonel Barros"
+                  class="w-full h-full object-cover rounded-lg"
+                />
               </div>
             </div>
           </div>

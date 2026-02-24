@@ -10,13 +10,15 @@ import { TranslationService } from '../../core/services/translation.service';
     <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <!-- Columna izquierda: Ilustración (placeholder) -->
+          <!-- Columna izquierda: Foto de perfil -->
           <div class="illustration-container hidden lg:block">
             <div class="illustration-wrapper bg-white rounded-2xl shadow-xl p-8 border border-black/10">
-              <div class="illustration-placeholder w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-                <svg class="w-32 h-32 text-black/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
+              <div class="illustration-placeholder w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/assets/images/foto.png" 
+                  alt="Foto de perfil de Leonel Barros"
+                  class="w-full h-full object-cover rounded-lg"
+                />
               </div>
             </div>
           </div>
