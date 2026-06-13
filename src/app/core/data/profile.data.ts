@@ -63,7 +63,7 @@ export interface ProfileData {
 
 export const profileData: ProfileData = {
   name: 'Leonel Barros',
-  photoUrl: '/f1.jpg',
+  photoUrl: '/assets/images/foto.png',
   roles: ['Estudiante de Ingeniería de Software'],
   bio: 'Estudiante de Ingeniería de Software enfocado en desarrollo web y buenas prácticas de ingeniería. Interesado en crear soluciones limpias, escalables y orientadas a la experiencia de usuario.',
   phone: '0984426647',
