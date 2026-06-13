@@ -108,8 +108,8 @@ import { TypingAnimationDirective } from '../../shared/directives/typing-animati
             <div class="illustration-wrapper bg-white rounded-2xl shadow-xl p-8 border border-black/10">
               <div class="illustration-placeholder w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
                 <img 
-                  src="/assets/images/foto.png" 
-                  alt="Foto de perfil de Leonel Barros"
+                  [src]="profileData.photoUrl || '/f1.jpg'"
+                  [alt]="'Foto de perfil de ' + profileData.name"
                   class="w-full h-full object-cover rounded-lg"
                 />
               </div>
