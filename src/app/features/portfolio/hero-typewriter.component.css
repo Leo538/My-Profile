@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  inline-size: 100%;
+  color: #f7e8cd;
+  font-family: var(--font-ui);
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.typewriter-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+  min-inline-size: 0;
+}
+
+.typed-line,
+.typewriter-spacer {
+  grid-area: 1 / 1;
+  align-self: start;
+  min-inline-size: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Every complete phrase participates in sizing, so typing never shifts the biography or CTAs. */
+.typewriter-spacer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cursor-slot {
+  position: relative;
+  display: inline-block;
+  inline-size: 0.4em;
+  block-size: 0.85em;
+  vertical-align: -0.04em;
+}
+
+.cursor {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0.15em;
+  inline-size: 0.075em;
+  background: #f3b45a;
+  animation: caret-blink 1s step-end infinite;
+}
+
+:host(.is-paused) .cursor {
+  animation-play-state: paused;
+}
+
+.typewriter-sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  :host {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  :host {
+    font-size: 13.5px;
+    letter-spacing: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    visibility: hidden;
+    animation: none;
+  }
+}

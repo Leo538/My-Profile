@@ -1,0 +1,1375 @@
+/* The arrangement and light placement of the Liquid Glass mockup. */
+:root[data-theme='liquid-glass'] .portfolio-page {
+  background: radial-gradient(ellipse at 50% 70%, #0d2341 0%, #071427 54%, #061124 95%);
+  --lg-shell-padding: clamp(13px, 1.9vw, 28px);
+  --lg-shell-gap: clamp(12px, 1.6vw, 25px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .site-header {
+  padding-top: clamp(9px, 1.35vw, 20px);
+  background: transparent;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .header-inner {
+  --lg-settings-width: clamp(119px, 13.75vw, 198px);
+  --lg-settings-gap: clamp(13px, 1.55vw, 23px);
+  --lg-settings-span: calc(var(--lg-settings-width) + var(--lg-settings-gap));
+  --lg-silver-position: 35% -10%;
+  --lg-blue-position: 0% 88%;
+  --lg-warm-position: 94% 112%;
+  width: min(1440px, 92.4vw);
+  min-height: clamp(45px, 5.35vw, 77px);
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  border-radius: 999px;
+  padding-inline-start: clamp(18px, 3.25vw, 48px);
+  gap: 14px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .header-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0 var(--lg-settings-span) 0 0;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid #abc4e97d;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 13% 140% at -2% 109%, #aacfffde 0%, #448ae0b0 31%, transparent 74%),
+    radial-gradient(ellipse 19% 97% at 33% -40%, #eef0f1ad, transparent 83%),
+    radial-gradient(ellipse 19% 88% at 99% 119%, #e9c79276, transparent 78%),
+    radial-gradient(ellipse 89% 155% at 105% -141%, #92b5ec65 64%, #567eaf3b 87%, transparent 88%),
+    linear-gradient(180deg, #44617f74, #112743ab 49%, #061326ce 78%, #243d5e9c), #07152ac2;
+  box-shadow:
+    inset 0 2px 3px #e7f1ffa3,
+    inset 0 -2px 3px #8cb6e8a0,
+    inset 0 0 16px #7fa8df35,
+    0 9px 20px #0109147d;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .header-inner::after {
+  inset-inline-end: var(--lg-settings-span);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .brand-signature {
+  width: clamp(80px, 9.9vw, 139px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .brand {
+  width: auto;
+  max-width: 13vw;
+  flex: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page nav {
+  gap: clamp(13px, 2vw, 30px);
+  font-size: clamp(11px, 1.21vw, 17px);
+  font-weight: 540;
+  color: #fff8ec;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page nav > a,
+:root[data-theme='liquid-glass'] .portfolio-page .project-navigation > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(5px, 0.65vw, 9px);
+  padding-block: clamp(7px, 1vw, 13px);
+  white-space: nowrap;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page nav > .active {
+  padding-inline: clamp(10px, 1.55vw, 22px);
+  color: #fff7e9;
+  font-weight: 650;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page nav > .active::after {
+  content: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page nav > a:not(.active):hover,
+:root[data-theme='liquid-glass'] .portfolio-page nav summary:hover {
+  color: #ffd488;
+  text-shadow: 0 0 8px #ffce7380;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-menu {
+  top: calc(100% + 5px);
+  z-index: 3;
+  --lg-face: #0a172ce8;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-menu a {
+  border-radius: 10px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-menu a:hover {
+  background: #93bae535;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .appearance-settings {
+  --lg-face: #081427c9;
+  --lg-silver: #8baada36;
+  --lg-blue-position: 103% 72%;
+  --lg-blue: #9bc6ffe1;
+  --lg-warm: #ffc67c25;
+  width: var(--lg-settings-width);
+  min-height: clamp(44px, 5.16vw, 74px);
+  justify-content: space-between;
+  gap: 3px;
+  margin-inline-start: var(--lg-settings-gap);
+  padding: 3px clamp(4px, 0.53vw, 8px);
+  border-radius: 999px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .language-switch {
+  gap: 1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: #0b1b31dc;
+  border: 1px solid #5b789445;
+  box-shadow: inset 0 1px 3px #030a17eb;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page :is(.language-name, .language-divider) {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .language-switch button {
+  font-size: clamp(10px, 1vw, 14px);
+  min-height: clamp(24px, 2.4vw, 36px);
+  padding: 0 clamp(5px, 0.6vw, 9px);
+  border-radius: 999px;
+  color: #f6ecd9;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .language-switch button[aria-pressed='true'] {
+  background: linear-gradient(150deg, #ffe0a1, #ffb83e 72%, #f1a239);
+  color: #141821;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 1px #ffefd4,
+    0 0 10px #ffbd4347;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .theme-switch {
+  border-color: transparent;
+  padding: 0;
+  gap: 1px;
+  background: transparent;
+  box-shadow: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .theme-switch button {
+  width: clamp(24px, 2.8vw, 42px);
+  height: clamp(30px, 3.55vw, 51px);
+  border-radius: 999px;
+  color: #d4e3f6;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .theme-switch button[aria-pressed='true'] {
+  border-color: #b7d6fb99;
+  color: #fff8ed;
+  background:
+    radial-gradient(ellipse at 25% -2%, #dcecffb5, transparent 54%),
+    radial-gradient(ellipse at 100% 74%, #8cbdffb5, transparent 70%),
+    linear-gradient(146deg, #395b87, #132944 54%, #456e9f 91%);
+  box-shadow:
+    inset 0 1px 3px #eef8ffb5,
+    inset 0 -1px 5px #c1e4ff91,
+    0 0 15px #72a8ef75;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .theme-hint {
+  --lg-face: #0c1a31fa;
+  --lg-radius: 10px;
+}
+
+/* Hero proportions and the same original panorama and handwriting. */
+:root[data-theme='liquid-glass'] .portfolio-page .hero {
+  width: min(1280px, 85.6vw);
+  padding-top: clamp(11px, 1.75vw, 25px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .hero h1 {
+  font-size: clamp(57px, 7.15vw, 107px);
+  line-height: 0.82;
+  margin: clamp(7px, 0.97vw, 14px) 0 clamp(6px, 0.82vw, 12px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .hero-copy {
+  max-width: 540px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .hero-intro {
+  margin-top: clamp(6px, 0.72vw, 10px);
+  max-width: min(460px, 94%);
+  padding-left: clamp(10px, 1.22vw, 18px);
+  font-size: clamp(11px, 1.22vw, 17px);
+  line-height: 1.43;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .hero-actions {
+  width: max-content;
+  max-width: calc(100vw - 15vw);
+  gap: clamp(9px, 1.4vw, 20px);
+  margin-top: clamp(9px, 1.22vw, 17px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .hero-actions .button {
+  min-height: clamp(36px, 4.12vw, 60px);
+  padding: 6px clamp(11px, 1.8vw, 26px);
+  gap: clamp(5px, 0.7vw, 10px);
+  font-size: clamp(11px, 1.3vw, 18px);
+  font-weight: 650;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px #030914;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .hero-actions .primary {
+  box-shadow:
+    inset 0 2px 4px #fff8e9de,
+    inset 0 -3px 6px #ffdc92f5,
+    inset 5px 0 12px #ffc4679c,
+    0 0 19px #ffb94b8a,
+    0 7px 18px #0009;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .hero-actions .secondary {
+  --lg-control-base: #d2e9ffb8;
+  --lg-control-blue: #a6cbffcc;
+  --lg-control-line: #b4d0f3b8;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .cv-preview-link {
+  color: #ffce78;
+  min-height: clamp(27px, 3.2vw, 44px);
+  font-size: clamp(11px, 1.18vw, 16px);
+  font-weight: 570;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .signature {
+  filter: drop-shadow(0 0 4px #ffc96565) drop-shadow(0 2px 8px #0009);
+  transform: translate(-6%, -17%);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .signature path {
+  stroke: #ffbf4f;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .signature-dot {
+  fill: #ffbf4f;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .journey-opening::after {
+  height: 28px;
+  background: linear-gradient(transparent, #08162a);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .journey-section {
+  margin-top: clamp(14px, 1.8vw, 27px);
+}
+
+/* World labels are anchored to the original Three.js camera. */
+:root[data-theme='liquid-glass'] .portfolio-page .journey-stage {
+  height: clamp(405px, 47.7vw, 710px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .map-intro {
+  left: 7.45%;
+  top: 7px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .map-intro p {
+  font-size: clamp(13px, 1.48vw, 21px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .map-intro > span {
+  color: #f2f2ef;
+  font-size: clamp(10px, 1.15vw, 16px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .level-navigation {
+  left: 7.45%;
+  top: clamp(52px, 6vw, 79px);
+  gap: clamp(5px, 0.72vw, 12px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .level-navigation button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: clamp(30px, 3.05vw, 43px);
+  padding-inline: clamp(8px, 1.22vw, 17px);
+  font-size: clamp(10px, 1.1vw, 15px);
+  white-space: nowrap;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .level-navigation .level-check {
+  color: #ffdb98;
+  margin: 0;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .level-chevron {
+  width: 0.94em;
+  height: 0.94em;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .journey-progress {
+  top: 8px;
+  right: 3.2%;
+  min-height: clamp(29px, 3.8vw, 52px);
+  padding-inline: clamp(9px, 1.4vw, 20px);
+  font-size: clamp(10px, 1.2vw, 16px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .progress-glyph {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .progress-star {
+  color: #ffcc75;
+  filter: drop-shadow(0 1px 3px #ffbc5b60);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .journey-progress.is-complete .progress-star {
+  fill: #ffd58d;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .station-pin {
+  --lg-control-face: #0b172bdd;
+  --lg-control-radius: clamp(12px, 1.65vw, 22px);
+  --lg-control-crown: #eff6ffe7;
+  --lg-control-blue: #85bcfbbc;
+  --lg-control-rim: #a1ceffb8;
+  --lg-control-base: #98c3fd82;
+  min-width: clamp(132px, 15.35vw, 224px);
+  padding: clamp(8px, 1vw, 14px) clamp(18px, 2vw, 28px) clamp(8px, 1vw, 14px)
+    clamp(12px, 1.55vw, 22px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .station-pin strong {
+  font-size: clamp(12px, 1.47vw, 20px);
+  line-height: 1.2;
+  color: #fff5e9;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .station-pin small {
+  color: #edeae7;
+  font-size: clamp(9px, 1.08vw, 15px);
+  line-height: 1.3;
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  :is(.station-pin.active, .station-pin.featured-stop) {
+  --lg-control-line: #ffde9bf5;
+  --lg-control-crown: #fff3d3;
+  --lg-control-rim: #ffd299cb;
+  --lg-control-base: #ffcf86a3;
+  --lg-control-halo: #ffb96865;
+  --lg-control-flash: #ffd88ad6;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .station-pin:not(.featured-stop) .pin-dot,
+:root[data-theme='liquid-glass'] .portfolio-page .station-pin .pin-arrow {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .station-pin.featured-stop {
+  padding-inline-start: clamp(20px, 2.15vw, 31px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-pin-arrow {
+  position: absolute;
+  top: clamp(7px, 0.95vw, 14px);
+  right: clamp(6px, 0.83vw, 12px);
+  width: clamp(11px, 1.24vw, 17px);
+  height: clamp(11px, 1.24vw, 17px);
+  color: #ffe4ac;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .plaza-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .plaza-button > span:first-child {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page :is(.open-stop, .plaza-button, .ramp-signpost) {
+  min-height: clamp(34px, 3.8vw, 52px);
+  font-size: clamp(10px, 1.12vw, 15px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .key {
+  --lg-control-radius: 6px;
+  --lg-control-line: #efc896a8;
+  --lg-control-blue: #9fb7e147;
+  --lg-control-halo: #b3c9e326;
+  width: clamp(20px, 2.67vw, 37px);
+  height: clamp(21px, 2.67vw, 37px);
+  font-size: clamp(9px, 1vw, 14px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .scene-activity {
+  z-index: 2;
+  bottom: 6px;
+  padding: 3px 7px;
+  border-radius: 9px;
+  color: #c2d3e6;
+  background: #09162bd9;
+}
+
+/* Lower dashboard: a common outer shell with separate curved cards inside. */
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.glass-lens {
+  --lg-face: #0a182ee8;
+  --lg-silver: #d8e3f855;
+  --lg-blue: #729fcb56;
+  --lg-warm: #b38a613d;
+  width: var(--lg-shell);
+  grid-template-columns: 18.5% minmax(0, 1fr);
+  gap: var(--lg-shell-gap);
+  padding: var(--lg-shell-padding);
+  margin: 0 auto clamp(10px, 1.3vw, 20px);
+  align-items: start;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .lower-heading h2 {
+  font-size: clamp(20px, 2.24vw, 33px);
+  font-weight: 690;
+  line-height: 1.13;
+  letter-spacing: -0.037em;
+  color: #fff7ec;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.additional-section {
+  --lg-blue-position: 2% 115%;
+  --lg-blue: #76bbffc8;
+  --lg-warm-position: 17% 124%;
+  --lg-warm: #ffd081ef;
+  --lg-bend: radial-gradient(
+    ellipse 45% 126% at -15% 168%,
+    #142e5929 65%,
+    #294f7d7a 74%,
+    #b8d7ff9e 76%,
+    #efce9a7b 77%,
+    transparent 79%
+  );
+  padding-block: clamp(12px, 1.52vw, 22px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .additional-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(10px, 1.2vw, 18px);
+  min-width: 0;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .additional-project {
+  --lg-silver-position: 2% -2%;
+  --lg-silver: #ffedc0d6;
+  --lg-blue: #8db7f485;
+  --lg-warm-position: 66% 108%;
+  --lg-warm: #ffe0a8d4;
+  --lg-bend: radial-gradient(
+    ellipse 102% 169% at 102% -66%,
+    transparent 54%,
+    #95b8f332 55%,
+    #5275a347 61%,
+    #12254220 72%,
+    transparent 73%
+  );
+  grid-template: 'icon repo' 'title title' 'stack stack' 'open open' / minmax(0, 1fr) auto;
+  align-self: start;
+  align-content: start;
+  gap: 2px 5px;
+  padding: clamp(9px, 1.22vw, 18px);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .additional-project.featured-row {
+  --lg-face: #282333ed;
+  --lg-warm: #ffc375ea;
+  border-color: #ffe1a6d4;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-project-icon {
+  grid-area: icon;
+  width: clamp(22px, 2.8vw, 37px);
+  height: clamp(22px, 2.8vw, 37px);
+  color: #ffd27a;
+  filter: drop-shadow(0 0 4px #ffcb7255);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .additional-details {
+  grid-area: title;
+  min-width: 0;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .additional-details summary {
+  gap: 4px;
+  min-height: 19px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .additional-details summary h3 {
+  font-size: clamp(12px, 1.29vw, 18px);
+  line-height: 1.25;
+  color: #fff9ef;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .additional-description .additional-sheet-link,
+:root[data-theme='liquid-glass'] .portfolio-page .additional-details summary .additional-star {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-project-stack {
+  grid-area: stack;
+  display: grid;
+  grid-template-rows: 1fr;
+  font-size: clamp(9px, 1vw, 14px);
+  line-height: 1.3;
+  color: #e3e7ec;
+  transition:
+    grid-template-rows var(--lg-duration) ease,
+    opacity var(--lg-duration) ease,
+    visibility var(--lg-duration);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-project-stack > p {
+  min-block-size: 0;
+  margin: 0;
+  overflow: hidden;
+  font: inherit;
+  color: inherit;
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  .additional-project:has(.additional-details[open])
+  .glass-project-stack {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Interpolate the native disclosure to its content height, including on close. */
+@supports (interpolate-size: allow-keywords) and selector(details::details-content) {
+  :root[data-theme='liquid-glass'] .portfolio-page .additional-details {
+    interpolate-size: allow-keywords;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .additional-details::details-content {
+    block-size: 0;
+    overflow: clip;
+    opacity: 0;
+    transition:
+      block-size var(--lg-duration) ease,
+      opacity var(--lg-duration) ease,
+      content-visibility var(--lg-duration) allow-discrete;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .additional-details[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-project-open {
+  grid-area: open;
+  align-items: center;
+  justify-self: start;
+  gap: 5px;
+  min-height: clamp(24px, 2.5vw, 36px);
+  padding: 2px 10px;
+  font-size: clamp(10px, 1.02vw, 14px);
+  font-weight: 620;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .additional-code-link {
+  --lg-control-radius: 10px;
+  grid-area: repo;
+  align-self: start;
+  min-height: 25px;
+  padding: 4px 6px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .additional-code-link span {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-rail-controls {
+  position: absolute;
+  z-index: 2;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-rail-controls button {
+  display: grid;
+  place-items: center;
+  width: clamp(30px, 3.8vw, 50px);
+  height: clamp(30px, 3.8vw, 50px);
+  pointer-events: auto;
+  font-size: clamp(14px, 1.8vw, 24px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-rail-controls button:disabled {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .professional-card {
+  gap: clamp(11px, 2.4vw, 38px);
+  align-items: stretch;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.professional-section,
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.credentials-section {
+  padding-block: clamp(11px, 1.35vw, 19px);
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  .reference-lower
+  :is(.experience-entry, .education-entry) {
+  --lg-silver-position: 4% 0%;
+  --lg-blue-position: 73% -8%;
+  --lg-warm-position: 98% 121%;
+  --lg-warm: #ffd195a8;
+  padding: clamp(8px, 1.05vw, 15px) clamp(12px, 2.45vw, 36px);
+  gap: clamp(8px, 2vw, 29px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .professional-icon {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-professional-icon {
+  color: #ffd078;
+  width: clamp(23px, 3vw, 43px);
+  height: clamp(23px, 3vw, 43px);
+  filter: drop-shadow(0 0 5px #ffcb7267);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .professional-content h3 {
+  font-size: clamp(12px, 1.24vw, 17px);
+  line-height: 1.28;
+  color: #fff8ef;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .professional-content p,
+:root[data-theme='liquid-glass'] .portfolio-page .professional-content .study-status {
+  color: #e0e5ec;
+  margin-top: 2px;
+  font-size: clamp(10px, 1.02vw, 14px);
+  line-height: 1.35;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .professional-details {
+  margin-top: 2px;
+  font-size: clamp(9px, 0.96vw, 13px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .professional-details summary {
+  color: #ffd083;
+  font-weight: 590;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .credential-showcase {
+  --lg-face: #0a192ee6;
+  --lg-silver-position: 0% 3%;
+  --lg-silver: #fff0c7dc;
+  --lg-blue-position: 93% -18%;
+  --lg-warm-position: 99% 105%;
+  --lg-warm: #ffe5afef;
+  padding: clamp(13px, 1.6vw, 23px) clamp(12px, 2.15vw, 31px) clamp(8px, 1.13vw, 16px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page :is(.showcase-lighting, .showcase-plinth) {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .credential-list {
+  gap: clamp(8px, 1.28vw, 17px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .credential-glass-light {
+  position: absolute;
+  top: calc(-1 * clamp(9px, 1.65vw, 23px));
+  left: 50%;
+  width: clamp(16px, 2vw, 29px);
+  height: clamp(2px, 0.35vw, 5px);
+  transform: translateX(-50%);
+  border-radius: 99px;
+  background: #fff4d7;
+  box-shadow:
+    0 0 6px 2px #ffba54ee,
+    0 2px 12px 4px #ffb95166;
+  pointer-events: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .credential-glass-light::after {
+  content: '';
+  position: absolute;
+  inset: 4px -32px auto;
+  height: 66px;
+  background: radial-gradient(ellipse 68% 110% at 50% -2%, #ffcf7c58, transparent 76%);
+  clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower :is(.badge-art, .badge-art img) {
+  height: clamp(48px, 5.65vw, 90px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .badge-art {
+  margin-bottom: 4px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .credential h3 {
+  color: #fff7ed;
+  margin-top: 1px;
+  font-size: clamp(9px, 1vw, 14px);
+  line-height: 1.22;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .credential-issuer,
+:root[data-theme='liquid-glass'] .portfolio-page .credential time {
+  font-size: clamp(8px, 0.89vw, 12px);
+  color: #c9d8e8;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .credential time {
+  margin: 2px 0 4px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .credential-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 1px 6px;
+  color: #ffdfb1;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .credential-showcase .glass-rail-controls {
+  inset: 0 4px;
+}
+
+/* Contact is a single, curved shell. The existing form retains ownership of submit and status. */
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.contact-section {
+  --lg-blue-position: 100% 65%;
+  --lg-blue: #8ec7ffb8;
+  --lg-warm-position: 97% 129%;
+  --lg-warm: #ffd393cb;
+  --lg-bend:
+    radial-gradient(
+      ellipse 40% 145% at 115% 147%,
+      transparent 57%,
+      #a1c9fff0 61%,
+      #5e8dd28f 64%,
+      #27487547 70%,
+      transparent 79%
+    ),
+    radial-gradient(
+      ellipse 42% 110% at -4% 166%,
+      transparent 60%,
+      #c2995d4a 66%,
+      #fff1c8c7 75%,
+      #ffe3af9b 76%,
+      transparent 77%
+    );
+  grid-template-columns: 18.5% minmax(0, 1.7fr) minmax(0, 1.12fr);
+  border-radius: clamp(16px, 2.55vw, 41px);
+  padding-block: clamp(12px, 1.56vw, 23px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .contact-section form {
+  display: grid;
+  grid-column: 2 / 4;
+  grid-row: 1;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.12fr);
+  gap: 6px var(--lg-shell-gap);
+}
+
+@supports (grid-template-columns: subgrid) {
+  :root[data-theme='liquid-glass'] .portfolio-page .contact-section form {
+    grid-template-columns: subgrid;
+  }
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.contact-section .form-row {
+  grid-column: 1;
+  margin: 0;
+  grid-template-columns: clamp(98px, 12vw, 139px) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid #95afd575;
+  border-radius: 10px;
+  background: linear-gradient(167deg, #091a30f0, #11233bd9 69%, #3d54716e);
+  box-shadow:
+    inset 0 2px 6px #010a17c7,
+    inset 0 -1px 2px #aac7e858;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .contact-section .form-row:focus-within {
+  border-color: #ffcf7e;
+  box-shadow:
+    inset 0 2px 6px #010a17c7,
+    0 0 8px #ffb6504a;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.contact-section .form-row label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 7px 6px clamp(7px, 0.9vw, 13px);
+  color: #f4e9d9;
+  font-size: clamp(10px, 1.02vw, 14px);
+  border-right: 1px solid #9bb8df33;
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  .reference-lower.contact-section
+  :is(input, textarea) {
+  border: 0;
+  border-radius: 0 9px 9px 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: clamp(10px, 1.02vw, 14px);
+  padding: 6px 8px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.contact-section input {
+  height: clamp(25px, 2.9vw, 42px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower.contact-section textarea {
+  min-height: clamp(40px, 4.4vw, 66px);
+  resize: vertical;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .send-button {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: end;
+  justify-content: center;
+  min-width: 0;
+  min-height: clamp(36px, 3.5vw, 50px);
+  width: 100%;
+  margin: 0;
+  gap: 8px;
+  color: #151b24;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 7% 3%, #fff4d7, transparent 62%),
+    radial-gradient(ellipse at 89% 115%, #fff0c9, transparent 65%),
+    linear-gradient(173deg, #f9d693, #e9a448 53%, #ffd286);
+  box-shadow:
+    inset 0 2px 3px #fff2ce,
+    inset 0 -2px 4px #fff0bbd9,
+    0 0 17px #ffb7487a,
+    0 5px 14px #060a14aa;
+  font-size: clamp(12px, 1.36vw, 19px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .send-button > span[aria-hidden] {
+  display: none;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .contact-networks {
+  grid-column: 3;
+  grid-row: 1;
+  z-index: 1;
+  gap: 3px;
+  align-self: start;
+  padding: 0;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .contact-networks .network-link {
+  --lg-control-crown: #fff5e07e;
+  --lg-control-blue: #8fbdff41;
+  --lg-control-halo: #79a7ee20;
+  min-height: clamp(24px, 2.67vw, 37px);
+  padding: 2px 8px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #f7e9ce;
+  font-size: clamp(10px, 1.1vw, 14px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-lower .form-status {
+  grid-column: 1 / -1;
+  margin: 3px 0 0;
+  padding: 7px 10px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .reference-footer {
+  border-top: 0;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .footer-inner {
+  --lg-face: #0a172cd5;
+  --lg-warm: #e4be837d;
+  --lg-silver: #c3d5f654;
+  width: var(--lg-shell);
+  padding-inline: var(--lg-shell-padding);
+}
+
+/* FinanSmart's layered project card and the shared project dialog. */
+:root[data-theme='liquid-glass'] .portfolio-page .project-dialog {
+  --lg-face: #061429e6;
+  --lg-silver-position: 3% -3%;
+  --lg-silver: #efe2c2b5;
+  --lg-blue-position: 100% -8%;
+  --lg-blue: #8bbaffcf;
+  --lg-warm-position: 93% 115%;
+  --lg-warm: #ffd08bc4;
+  border-radius: clamp(16px, 2.35vw, 34px);
+  box-shadow:
+    inset 0 1px 4px #fef4de94,
+    inset 0 -2px 7px #ffdcb975,
+    inset 0 0 28px #98bfff29,
+    0 30px 85px #030915de;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-dialog::backdrop {
+  background: #020a17a3;
+}
+
+@media (min-width: 701px) {
+  :root[data-theme='liquid-glass'] .portfolio-page .project-dialog {
+    height: min(790px, calc(100svh - 36px));
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .project-panel .gallery-stage > img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+    max-height: 52svh;
+  }
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-dialog.is-featured {
+  border-color: #ffd699;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .sheet-heading {
+  position: relative;
+  padding-inline-start: clamp(47px, 6.3vw, 89px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .sheet-heading .glass-project-crest {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  width: clamp(39px, 5.25vw, 71px);
+  height: clamp(39px, 5.25vw, 71px);
+  color: #ffcc64;
+  --lg-control-radius: clamp(9px, 1.2vw, 18px);
+  --lg-control-line: #d7c9adad;
+  --lg-control-base: #ffd084ab;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-project-crest svg {
+  width: 59%;
+  height: 59%;
+  filter: drop-shadow(0 1px 5px #ffb94299);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-name-accent {
+  color: #ffba50;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .sheet-close {
+  --lg-control-radius: 12px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .sheet-tabs {
+  border-color: #a6c4e644;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .sheet-tabs > button {
+  font-weight: 600;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .sheet-preview {
+  --lg-radius: 18px;
+  --lg-warm: #ffd39a57;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page :is(.gallery-stage, .sheet-table-wrap) {
+  background: #061021b5;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .gallery-arrow {
+  opacity: 0.96;
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  .gallery-pagination
+  button[aria-pressed='true']
+  span {
+  box-shadow: 0 0 7px #ffd483aa;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-summary {
+  --lg-face: #09172cdd;
+  --lg-silver-position: 0% -2%;
+  --lg-silver: #fff5d7ae;
+  --lg-blue-position: 99% -3%;
+  --lg-blue: #9ecaffc9;
+  --lg-warm-position: 98% 107%;
+  --lg-warm: #ffdda8e1;
+  padding: clamp(12px, 1.7vw, 24px);
+  align-self: start;
+  gap: 12px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-summary :is(h3, li) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff6e9;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-summary .glass-icon {
+  color: #ffce72;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .summary-modules li {
+  border: 1px solid #9cb8de38;
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: linear-gradient(156deg, #7296c146, #293f5d59 68%, #9eb1ce4d);
+  box-shadow:
+    inset 0 1px #d4e5fa35,
+    inset 0 -1px #050a134d;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .information-grid {
+  --lg-radius: 16px;
+  --lg-warm: #dbb48460;
+  padding: 14px;
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  :is(.project-stack li, .example-note, .policy-status) {
+  background: #172b45d9;
+  border-radius: 9px;
+  box-shadow: inset 0 1px #9fbfdf45;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .project-sheet button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+@media (min-width: 761px) {
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner {
+    translate: clamp(8px, 1.25vw, 18px) 0;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .journey-stage {
+    --lg-map-inset: clamp(0px, calc(16.5vw - 145px), 94px);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page :is(.canvas-host, .map-stops) {
+    top: var(--lg-map-inset);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .journey-stage[data-level='0'] .canvas-host {
+    mask-image: linear-gradient(transparent, #000 clamp(20px, 3.35vw, 48px));
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .station-pin.active {
+    margin-top: clamp(-17px, -1.35vw, -10px);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .map-controls {
+    left: 4.5%;
+    right: 3%;
+    bottom: clamp(30px, 3vw, 45px);
+  }
+}
+
+@media (761px <= width <= 1100px) {
+  :root[data-theme='liquid-glass'] .portfolio-page nav {
+    gap: clamp(6px, 1.13vw, 13px);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner {
+    gap: 8px;
+    padding-inline-start: 16px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .appearance-settings {
+    margin-inline-start: calc(var(--lg-settings-gap) - 4px);
+  }
+}
+
+@media (840px <= width <= 1100px) {
+  :root[data-theme='liquid-glass'] .portfolio-page nav {
+    gap: clamp(18px, 2.6vw, 25px);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner {
+    padding-inline-start: 27px;
+  }
+}
+
+@media (max-width: 760px) {
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner {
+    --lg-settings-span: 0px;
+    border-radius: 18px;
+    min-height: 53px;
+    padding-inline: 11px;
+    isolation: auto;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner::before {
+    z-index: 0;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page :is(.brand, .menu-toggle) {
+    position: relative;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .brand {
+    max-width: none;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page nav {
+    top: calc(100% + 6px);
+    gap: 2px;
+    padding: 13px 16px;
+    border: 1px solid #adc6e993;
+    border-radius: 18px;
+    background:
+      radial-gradient(ellipse at 4% 0%, #50799bb3, transparent 61%),
+      linear-gradient(155deg, #1c385def, #07152af7 58%, #172d48f5);
+    box-shadow:
+      inset 0 1px 2px #ecf6ffc4,
+      inset 0 -2px 4px #a5c5ec73,
+      0 10px 24px #0009;
+    max-height: calc(100svh - 74px);
+    overflow: auto;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page nav > a,
+  :root[data-theme='liquid-glass'] .portfolio-page .project-navigation > summary {
+    font-size: 13px;
+    padding: 9px 11px;
+    min-height: 36px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .appearance-settings {
+    width: 100%;
+    min-height: 48px;
+    margin: 7px 0 0;
+    padding: 2px 6px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .language-switch button {
+    min-height: 40px;
+    min-width: 40px;
+    font-size: 12px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .theme-switch button {
+    width: 42px;
+    height: 42px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .hero {
+    width: 90%;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .hero h1 {
+    font-size: clamp(42px, 9.4vw, 68px);
+    line-height: 0.92;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .signature {
+    transform: translate(-6%, -10%);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .hero-actions {
+    width: 100%;
+    max-width: 100%;
+    gap: 7px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .hero-actions .button {
+    min-height: 44px;
+    font-size: 12px;
+    padding-inline: 10px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower.glass-lens {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower .additional-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .credential-showcase {
+    padding-inline: 17px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower .credential-list {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 16px) / 2.65);
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+    padding-top: 14px;
+    margin-top: -14px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .credential {
+    scroll-snap-align: start;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .credentials-section .credential-glass-light {
+    top: -9px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower.contact-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .contact-section form {
+    grid-column: 1;
+    grid-row: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower .send-button {
+    grid-column: 1;
+    grid-row: auto;
+    min-height: 43px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower.contact-section input {
+    min-height: 39px;
+  }
+
+  :root[data-theme='liquid-glass']
+    .portfolio-page
+    .reference-lower.contact-section
+    :is(input, textarea) {
+    font-size: 16px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .contact-networks {
+    grid-column: 1;
+    grid-row: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+}
+
+@media (max-width: 360px) {
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower .additional-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  :root[data-theme='liquid-glass'] .portfolio-page .journey-stage {
+    height: 538px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .map-intro {
+    left: 4%;
+    top: 12px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .level-navigation {
+    left: 4%;
+    top: 63px;
+    gap: 4px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .level-navigation button {
+    min-height: 42px;
+    font-size: 10px;
+    padding-inline: 7px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .journey-progress {
+    right: auto;
+    top: 112px;
+    min-height: 25px;
+    max-width: 92%;
+    font-size: 10px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .station-pin,
+  :root[data-theme='liquid-glass'] .portfolio-page .station-pin.featured-stop {
+    min-width: 0;
+    padding: 8px 4px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .glass-pin-arrow {
+    display: none;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .project-summary {
+    padding: 9px;
+    gap: 7px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .information-grid {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root[data-theme='liquid-glass'] .portfolio-page .journey-stage {
+    --lg-compact-stage: clamp(435px, 119vw, 484px);
+    height: var(--lg-compact-stage);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .canvas-host {
+    bottom: calc(var(--lg-compact-stage) - 388px);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .hero h1 {
+    font-size: clamp(34px, 10.8vw, 50px);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .hero-actions .button {
+    font-size: 11px;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .contact-networks {
+    display: flex;
+    margin-top: 0;
+    border-top: 0;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .reference-lower .professional-card {
+    gap: 9px;
+  }
+}

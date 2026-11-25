@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="home" viewBox="0 0 24 24"><path d="m2.5 10.5 9.5-8 9.5 8M5 9v12h5v-6h4v6h5V9"/></symbol>
+  <symbol id="layers" viewBox="0 0 24 24"><path d="m2 7 10-5 10 5-10 5Zm0 5 10 5 10-5M2 17l10 5 10-5"/></symbol>
+  <symbol id="briefcase" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="14.5" rx="2.5"/><path d="M8.5 6V4.5A1.5 1.5 0 0 1 10 3h4a1.5 1.5 0 0 1 1.5 1.5V6M3 12c4.8 2 13.2 2 18 0m-9 1v3"/></symbol>
+  <symbol id="medal" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="6"/><circle cx="12" cy="8.5" r="3.2"/><path d="m7.2 12-4 7.6 4.2-.4 2 2.8 3-7.5m4.4-2.5 4 7.6-4.2-.4-2 2.8-3-7.5"/></symbol>
+  <symbol id="send" viewBox="0 0 24 24"><path d="M22 2 2 10l8.3 3.5L14 22l8-20ZM10.3 13.5 22 2"/></symbol>
+  <symbol id="play" viewBox="0 0 24 24"><path d="m6 3 14.5 9L6 21Z"/></symbol>
+  <symbol id="download" viewBox="0 0 24 24"><path d="M12 2.5v12m-4.5-4.6 4.5 4.6 4.5-4.6M3 14v6.5h18V14"/></symbol>
+  <symbol id="chevron-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="chevron-left" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="chevron-down" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></symbol>
+  <symbol id="arrow-right" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6"/></symbol>
+  <symbol id="arrow-left" viewBox="0 0 24 24"><path d="M21 12H4m6-6-6 6 6 6"/></symbol>
+  <symbol id="arrow-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M9 6h9v9"/></symbol>
+  <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2Z"/></symbol>
+  <symbol id="mail" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 7 9 7 9-7"/></symbol>
+  <symbol id="message" viewBox="0 0 24 24"><path d="M21.5 16.5H9l-6.5 5v-17a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2zM7 8h10m-10 4h7"/></symbol>
+  <symbol id="credit-card" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 15h5"/></symbol>
+  <symbol id="chart" viewBox="0 0 24 24"><path d="M3 20v-4m5 4v-7m5 7v-5m5 5v-9M3 12l5-5 5 3 8-7m-6 0h6v6"/></symbol>
+  <symbol id="finansmart" viewBox="0 0 24 24">
+    <ellipse cx="15.5" cy="5" rx="6.5" ry="3"/><path d="M22 5v9c0 1.7-2.9 3-6.5 3-.7 0-1.4 0-2-.2M22 9c0 1.7-2.9 3-6.5 3-.7 0-1.4 0-2-.2M22 12c0 1.7-2.9 3-6.5 3-.7 0-1.4 0-2-.2"/>
+    <ellipse cx="8" cy="11" rx="6" ry="3"/><path d="M2 11v7.5c0 1.7 2.7 3 6 3s6-1.3 6-3V11M2 14.5c0 1.7 2.7 3 6 3s6-1.3 6-3"/>
+  </symbol>
+  <symbol id="sicop" viewBox="0 0 24 24"><path d="M2 19V5a2 2 0 0 1 2-2h5l2.5 3h8.5a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Zm0-9h20m-13 5 2 2 4-4"/></symbol>
+  <symbol id="chatquality" viewBox="0 0 24 24"><path d="M14 16H8l-5 4V5h14v7m0-3 5-3v13l-5-3zM7 9h6m-6 4h6"/></symbol>
+  <symbol id="riego" viewBox="0 0 24 24"><path d="M12 22v-9c0-6 4-9 10-10-1 6-4 10-10 10M12 16C6 17 2 13 2 7c6 .1 10 3 10 9"/></symbol>
+  <symbol id="agropay" viewBox="0 0 24 24"><path d="M5 18C-1 9 11 4 22 3c-1 13-8 19-16 16M2 22 15 9"/></symbol>
+  <symbol id="rgb" viewBox="0 0 24 24"><path d="M8 2h8m-6 0v7L3.4 19.2A1.8 1.8 0 0 0 5 22h14a1.8 1.8 0 0 0 1.6-2.8L14 9V2M6.8 15h10.4"/></symbol>
+  <symbol id="novacore" viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7Zm0 10 9-5M12 12 3 7m9 5v10"/></symbol>
+  <symbol id="vinculacion" viewBox="0 0 24 24"><path d="M12 3c2.6 4.1 7 8.3 7 12a7 7 0 0 1-14 0c0-3.7 4.4-7.9 7-12ZM8 16a4 4 0 0 0 4 3.4"/></symbol>
+  <symbol id="pantufladas" viewBox="0 0 24 24"><path d="m12 2 2.9 6.5 7.1.7-5.4 4.8 1.6 7-6.2-3.7L5.8 21l1.6-7L2 9.2l7.1-.7Z"/></symbol>
+  <symbol id="education" viewBox="0 0 24 24"><path d="m2 8.5 10-5 10 5-10 5ZM6 11v5.5c3 3 9 3 12 0V11m4-2.5v8"/></symbol>
+</svg>

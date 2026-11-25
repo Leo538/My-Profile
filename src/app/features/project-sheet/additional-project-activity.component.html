@@ -1,0 +1,312 @@
+<section class="extra-activity" [attr.data-project]="projectId()">
+  @switch (projectId()) {
+    @case ('riego') {
+      <header>
+        <h3>{{ i18n.text('Explora las condiciones del cultivo', 'Explore crop conditions') }}</h3>
+        <p>
+          {{
+            i18n.text(
+              'Cambia las entradas y observa cómo responde el modelo base del proyecto.',
+              'Change the inputs and see how the project’s base model responds.'
+            )
+          }}
+        </p>
+      </header>
+      <div class="controls-grid irrigation-inputs">
+        <label for="demo-soil"
+          ><span
+            >{{ i18n.text('Humedad del suelo', 'Soil humidity') }}
+            <output>{{ soilHumidity() }} / 64</output></span
+          ><input
+            id="demo-soil"
+            type="range"
+            min="0"
+            max="64"
+            step="1"
+            [value]="soilHumidity()"
+            (input)="setSoil($event)"
+        /></label>
+        <label for="demo-temperature"
+          ><span
+            >{{ i18n.text('Temperatura', 'Temperature') }}
+            <output>{{ temperature() }} °C</output></span
+          ><input
+            id="demo-temperature"
+            type="range"
+            min="0"
+            max="50"
+            step="1"
+            [value]="temperature()"
+            (input)="setTemperature($event)"
+        /></label>
+      </div>
+      <div class="irrigation-result result-card" aria-live="polite">
+        <svg viewBox="0 0 72 72" aria-hidden="true">
+          <path d="M36 9C29 21 17 32 17 44a19 19 0 0 0 38 0C55 32 43 21 36 9Z" />
+          <path d="M27 46a10 10 0 0 0 10 10" />
+        </svg>
+        <div>
+          <span>{{ i18n.text('Duración del ejemplo', 'Example duration') }}</span><strong
+            data-testid="irrigation-result"
+            >{{ duration() }} <small>min</small></strong
+          >
+          <p>
+            {{
+              irrigation().level === 'short'
+                ? i18n.text('Riego corto', 'Short irrigation')
+                : irrigation().level === 'long'
+                  ? i18n.text('Riego largo', 'Long irrigation')
+                  : i18n.text('Riego medio', 'Medium irrigation')
+            }}
+          </p>
+        </div>
+      </div>
+      <p class="activity-note">
+        {{
+          i18n.text(
+            'HR 60 % · PAR 1000 · parámetros base. La optimización genética está disponible en el proyecto completo.',
+            'RH 60% · PAR 1000 · base parameters. Genetic optimization is available in the full project.'
+          )
+        }}
+      </p>
+    }
+    @case ('agropay') {
+      <header>
+        <h3>{{ i18n.text('Del cultivo al pedido', 'From the farm to an order') }}</h3>
+        <p>
+          {{
+            i18n.text(
+              'Prepara un pedido ficticio y recorre su revisión de pago y entrega.',
+              'Build a fictional order and follow payment review and delivery.'
+            )
+          }}
+        </p>
+      </header>
+      <div class="order-product">
+        <div>
+          <strong>{{ i18n.text('Tomate de ejemplo', 'Sample tomatoes') }}</strong>
+          <p>{{ money(1.5) }} / kg</p>
+        </div>
+        <div class="quantity-control">
+          <button
+            type="button"
+            (click)="setQuantity(-1)"
+            [disabled]="quantity() === 1 || orderStage() > 0"
+            [attr.aria-label]="i18n.text('Quitar un kilo', 'Remove one kilogram')"
+          >
+            −</button
+          ><output>{{ quantity() }} kg</output
+          ><button
+            type="button"
+            (click)="setQuantity(1)"
+            [disabled]="quantity() === 12 || orderStage() > 0"
+            [attr.aria-label]="i18n.text('Añadir un kilo', 'Add one kilogram')"
+          >
+            +
+          </button>
+        </div>
+      </div>
+      <div class="order-summary result-card" aria-live="polite">
+        <div>
+          <span>{{ i18n.text('Total del ejemplo', 'Example total') }}</span><strong
+            data-testid="order-total"
+            >{{ money(orderTotal()) }}</strong
+          >
+        </div>
+        <span class="state-badge" data-testid="order-status">{{
+          orderStages()[orderStage()]
+        }}</span>
+      </div>
+      <ol class="stage-track" [attr.aria-label]="i18n.text('Etapas del pedido', 'Order stages')">
+        @for (stage of orderStages(); track $index) {
+          <li
+            [class.complete]="$index <= orderStage()"
+            [attr.aria-current]="$index === orderStage() ? 'step' : null"
+          >
+            <span aria-hidden="true">{{ $index < orderStage() ? '✓' : $index + 1 }}</span>{{
+              stage
+            }}
+          </li>
+        }
+      </ol>
+      <button
+        type="button"
+        class="activity-primary"
+        (click)="advanceOrder()"
+        [disabled]="orderStage() === 3"
+      >
+        {{ orderAction() }}
+      </button>
+      <p class="activity-note">
+        {{
+          i18n.text(
+            'Datos ficticios. El ejemplo no realiza pedidos ni cobros.',
+            'Fictional data. This example does not place orders or charge payments.'
+          )
+        }}
+      </p>
+    }
+    @case ('rgb') {
+      <header>
+        <h3>{{ i18n.text('Mezcla los canales de una imagen', 'Mix the image channels') }}</h3>
+        <p>
+          {{
+            i18n.text(
+              'Ajusta cada canal y compara el resultado con la imagen original del repositorio.',
+              'Adjust each channel and compare the result with the repository’s original sample image.'
+            )
+          }}
+        </p>
+      </header>
+      <div class="rgb-comparison">
+        <figure>
+          <img
+            src="/assets/projects/rgb-sample.jpg"
+            [alt]="i18n.text('Paisaje original de ejemplo', 'Original sample landscape')"
+            width="728"
+            height="410"
+            (load)="loadRgbSample($event)"
+          />
+          <figcaption>{{ i18n.text('Original', 'Original') }}</figcaption>
+        </figure>
+        <figure>
+          <canvas
+            #rgbCanvas
+            class="rgb-adjusted"
+            width="364"
+            height="205"
+            role="img"
+            [attr.aria-label]="
+              i18n.text('Paisaje con los canales ajustados', 'Landscape with adjusted channels')
+            "
+          ></canvas>
+          <figcaption>{{ i18n.text('Resultado', 'Result') }}</figcaption>
+        </figure>
+      </div>
+      <div class="rgb-controls">
+        <label for="demo-red" class="channel-red"
+          ><span
+            >{{ i18n.text('Rojo', 'Red') }} <output>{{ red() }} %</output></span
+          ><input
+            id="demo-red"
+            type="range"
+            min="0"
+            max="200"
+            step="5"
+            [value]="red()"
+            (input)="setChannel('red', $event)"
+        /></label>
+        <label for="demo-green" class="channel-green"
+          ><span
+            >{{ i18n.text('Verde', 'Green') }} <output>{{ green() }} %</output></span
+          ><input
+            id="demo-green"
+            type="range"
+            min="0"
+            max="200"
+            step="5"
+            [value]="green()"
+            (input)="setChannel('green', $event)"
+        /></label>
+        <label for="demo-blue" class="channel-blue"
+          ><span
+            >{{ i18n.text('Azul', 'Blue') }} <output>{{ blue() }} %</output></span
+          ><input
+            id="demo-blue"
+            type="range"
+            min="0"
+            max="200"
+            step="5"
+            [value]="blue()"
+            (input)="setChannel('blue', $event)"
+        /></label>
+      </div>
+      <p class="activity-note">
+        {{
+          i18n.text(
+            '100 % conserva el canal. 0 % lo elimina; 200 % duplica su intensidad.',
+            '100% keeps the channel. 0% removes it; 200% doubles its intensity.'
+          )
+        }}
+      </p>
+    }
+    @case ('novacore') {
+      <header>
+        <h3>
+          {{ i18n.text('Diseña un encargo para el estudio', 'Build a studio project brief') }}
+        </h3>
+        <p>
+          {{
+            i18n.text(
+              'Explora los servicios de Novacore y las etapas de un proyecto de ejemplo.',
+              'Explore Novacore’s services and the stages of a sample project.'
+            )
+          }}
+        </p>
+      </header>
+      <div
+        class="service-options"
+        role="group"
+        [attr.aria-label]="i18n.text('Tipo de servicio', 'Service type')"
+      >
+        @for (option of services; track option) {
+          <button
+            type="button"
+            [attr.aria-pressed]="service() === option"
+            (click)="selectService(option)"
+          >
+            {{ serviceName(option) }}
+          </button>
+        }
+      </div>
+      <div class="studio-brief result-card" aria-live="polite">
+        <span>{{ i18n.text('Encargo de ejemplo', 'Sample brief') }}</span><strong
+          data-testid="studio-service"
+          >{{ serviceName(service()) }}</strong
+        >
+        <p>{{ serviceDetail() }}</p>
+      </div>
+      <ol
+        class="stage-track studio-track"
+        [attr.aria-label]="i18n.text('Etapas del proyecto', 'Project stages')"
+      >
+        @for (stage of studioStages(); track $index) {
+          <li
+            [class.complete]="$index <= studioStage()"
+            [attr.aria-current]="$index === studioStage() ? 'step' : null"
+          >
+            <span aria-hidden="true">{{ $index < studioStage() ? '✓' : $index + 1 }}</span>{{
+              stage
+            }}
+          </li>
+        }
+      </ol>
+      <button
+        type="button"
+        class="activity-primary"
+        (click)="advanceStudio()"
+        [disabled]="studioStage() === 3"
+      >
+        {{
+          studioStage() === 3
+            ? i18n.text('Proyecto preparado', 'Project prepared')
+            : i18n.text('Avanzar etapa', 'Next stage')
+        }}
+      </button>
+      <p class="activity-note">
+        {{
+          i18n.text(
+            'Recorrido ilustrativo basado en los servicios publicados. No envía una solicitud real.',
+            'Illustrative flow based on published services. It does not submit a real request.'
+          )
+        }}
+      </p>
+    }
+  }
+  <footer>
+    <button type="button" class="activity-reset" (click)="reset()">
+      {{ i18n.text('Reiniciar ejemplo', 'Reset example') }}</button><span>{{
+      i18n.text('Ejemplo interactivo', 'Interactive example')
+    }}</span>
+  </footer>
+</section>

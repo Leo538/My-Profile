@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:e2e": "playwright test"
   },
   "prettier": {
     "printWidth": 100,
@@ -32,12 +33,15 @@
     "@emailjs/browser": "^4.4.1",
     "gsap": "^3.14.2",
     "rxjs": "~7.8.0",
+    "three": "^0.187.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular/build": "^21.0.3",
     "@angular/cli": "^21.0.3",
     "@angular/compiler-cli": "^21.0.0",
+    "@playwright/test": "^1.65.1",
+    "@types/three": "^0.187.0",
     "autoprefixer": "^10.4.23",
     "jsdom": "^27.1.0",
     "less": "^4.2.0",

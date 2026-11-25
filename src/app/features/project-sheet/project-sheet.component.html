@@ -1,0 +1,806 @@
+<dialog
+  #dialog
+  class="project-dialog glass-surface glass-lens"
+  [class.is-featured]="project().featured"
+  aria-labelledby="sheet-title"
+  (cancel)="cancel($event)"
+  (close)="nativeClose()"
+  (click)="backdropClick($event)"
+>
+  <header class="sheet-topline">
+    <div class="sheet-heading">
+      <span class="glass-only glass-control glass-project-crest" aria-hidden="true">
+        <svg class="glass-icon" viewBox="0 0 24 24">
+          <use [attr.href]="'assets/icons/liquid-glass.svg#' + project().id" />
+        </svg>
+      </span>
+      <span>{{ project().location }}</span>
+      @if (project().featured) {
+        <strong class="featured-project-label"
+          >&#9733; {{ i18n.text('Proyecto estrella', 'Featured project') }}</strong
+        >
+      }
+      <h2 id="sheet-title" [attr.aria-label]="project().name">
+        @if (project().id === 'finansmart') {
+          Finan<span class="glass-name-accent">Smart</span>
+        } @else {
+          {{ project().name }}
+        }
+      </h2>
+    </div>
+    <button
+      type="button"
+      autofocus
+      class="sheet-close"
+      (click)="requestClose()"
+      [attr.aria-label]="i18n.text('Cerrar ficha', 'Close project')"
+    >
+      {{ i18n.text('Cerrar', 'Close') }} <span aria-hidden="true">×</span>
+    </button>
+  </header>
+  <div
+    class="sheet-tabs"
+    role="tablist"
+    (keydown)="onTabKeyDown($event)"
+    [attr.aria-label]="i18n.text('Contenido del proyecto', 'Project content')"
+  >
+    <button
+      id="sheet-project-tab"
+      type="button"
+      role="tab"
+      aria-controls="sheet-project-panel"
+      [attr.aria-selected]="activeTab() === 'project'"
+      [attr.tabindex]="activeTab() === 'project' ? 0 : -1"
+      (click)="selectTab('project')"
+    >
+      {{ i18n.text('Proyecto', 'Project') }}
+    </button>
+    <button
+      id="sheet-information-tab"
+      type="button"
+      role="tab"
+      aria-controls="sheet-information-panel"
+      [attr.aria-selected]="activeTab() === 'information'"
+      [attr.tabindex]="activeTab() === 'information' ? 0 : -1"
+      (click)="selectTab('information')"
+      [attr.aria-label]="i18n.text('Información', 'Information')"
+    >
+      <span class="tab-label-wide">{{ i18n.text('Información', 'Information') }}</span><span
+        class="tab-label-short"
+        >Info</span
+      >
+    </button>
+    <button
+      id="sheet-activity-tab"
+      type="button"
+      role="tab"
+      aria-controls="sheet-activity-panel"
+      [attr.aria-selected]="activeTab() === 'activity'"
+      [attr.tabindex]="activeTab() === 'activity' ? 0 : -1"
+      (click)="selectTab('activity')"
+    >
+      {{ i18n.text('Actividad', 'Activity') }}
+    </button>
+    @if (project().id === 'finansmart') {
+      <button
+        id="sheet-schedule-tab"
+        type="button"
+        role="tab"
+        aria-controls="sheet-schedule-panel"
+        [attr.aria-selected]="activeTab() === 'schedule'"
+        [attr.tabindex]="activeTab() === 'schedule' ? 0 : -1"
+        (click)="selectTab('schedule')"
+      >
+        {{ i18n.text('Cuotas', 'Schedule') }}
+      </button>
+    }
+  </div>
+  <section
+    id="sheet-project-panel"
+    class="sheet-panel project-panel"
+    role="tabpanel"
+    aria-labelledby="sheet-project-tab"
+    [hidden]="activeTab() !== 'project'"
+    tabindex="0"
+  >
+    @if (galleryImages().length) {
+      <app-project-gallery [images]="galleryImages()" [projectName]="project().name" />
+    } @else {
+      <figure class="sheet-preview">
+        <div class="project-emblem">
+          <svg viewBox="0 0 96 96" role="img" [attr.aria-label]="project().location">
+            @switch (project().id) {
+              @case ('riego') {
+                <path d="M14 42 48 16 82 42v39H14ZM14 42h68M48 16v65M31 30v51M65 30v51M14 61h68" />
+                <path d="M49 58c-8-13-19-5-17 2 2 9 16 8 16 17m0-12c7-15 22-8 16 0-3 4-10 5-16 5" />
+              }
+              @case ('agropay') {
+                <path
+                  d="M18 42h60v38H18ZM12 42l7-22h58l7 22M21 42v10h10V42m10 0v10h12V42m10 0v10h12V42M28 62h15v18m13-18h12v12H56"
+                />
+              }
+              @case ('rgb') {
+                <path d="M12 20h72v50H12ZM36 83h24M48 70v13" />
+                <circle cx="32" cy="44" r="10" fill="#e36c65" stroke="none" />
+                <circle cx="48" cy="44" r="10" fill="#8cd39b" stroke="none" />
+                <circle cx="64" cy="44" r="10" fill="#77aef0" stroke="none" />
+              }
+              @default {
+                <path
+                  d="M12 20h72v52H12ZM35 84h26M48 72v12M34 35 24 46l10 11m28-22 10 11-10 11M53 32 43 60"
+                />
+              }
+            }
+          </svg>
+          <strong>{{ project().name }}</strong>
+          <small>{{ project().location }}</small>
+        </div>
+        <figcaption>
+          {{ i18n.text('Proyecto disponible en GitHub', 'Project available on GitHub') }}
+        </figcaption>
+      </figure>
+    }
+    <div class="sheet-overview project-summary glass-surface glass-lens">
+      <h3>
+        <svg class="glass-only glass-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons/liquid-glass.svg#layers" />
+        </svg>
+        {{ i18n.text('En resumen', 'At a glance') }}
+      </h3>
+      <p class="project-problem">{{ projectSummary() }}</p>
+      <div
+        class="project-resources"
+        role="group"
+        [attr.aria-label]="i18n.text('Enlaces del proyecto', 'Project links')"
+      >
+        @if (project().githubUrl) {
+          <a
+            class="project-code-link"
+            [href]="project().githubUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#github-icon" /></svg>
+            {{ i18n.text('Ver código', 'View code') }}
+            @if (project().repoVisibility === 'private') {
+              <small>{{ i18n.text('privado', 'private') }}</small>
+            }
+            <svg class="glass-only glass-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="assets/icons/liquid-glass.svg#arrow-right" />
+            </svg>
+          </a>
+        }
+        @if (project().demoUrl) {
+          <a [href]="project().demoUrl" target="_blank" rel="noopener noreferrer">{{
+            i18n.text('Abrir demo', 'Open demo')
+          }}</a>
+        }
+        @if (project().videoUrl) {
+          <a [href]="project().videoUrl" target="_blank" rel="noopener noreferrer">{{
+            i18n.text('Ver video', 'Watch video')
+          }}</a>
+        }
+      </div>
+      @if (project().modules?.length) {
+        <div class="summary-modules">
+          <h3>
+            <svg class="glass-only glass-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <use href="assets/icons/liquid-glass.svg#layers" />
+            </svg>
+            {{ i18n.text('Qué incluye', 'What it includes') }}
+          </h3>
+          <ul>
+            @for (module of project().modules; track module; let i = $index) {
+              <li>
+                <svg class="glass-only glass-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <use
+                    [attr.href]="
+                      'assets/icons/liquid-glass.svg#' +
+                      (project().id === 'finansmart' && i < 2
+                        ? i === 0
+                          ? 'credit-card'
+                          : 'chart'
+                        : 'layers')
+                    "
+                  />
+                </svg>
+                {{ module }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+      <button type="button" class="project-information-link" (click)="selectTab('information')">
+        {{ i18n.text('Ver información completa', 'View full project information') }}
+      </button>
+    </div>
+  </section>
+
+  <section
+    id="sheet-information-panel"
+    class="sheet-panel information-panel"
+    role="tabpanel"
+    aria-labelledby="sheet-information-tab"
+    [hidden]="activeTab() !== 'information'"
+    tabindex="0"
+  >
+    <div
+      class="information-switch"
+      role="group"
+      [attr.aria-label]="i18n.text('Secciones de información', 'Information sections')"
+    >
+      <button type="button" [attr.aria-pressed]="infoPage() === 0" (click)="infoPage.set(0)">
+        {{ i18n.text('Resumen', 'Overview') }}
+      </button>
+      <button type="button" [attr.aria-pressed]="infoPage() === 1" (click)="infoPage.set(1)">
+        {{ i18n.text('Mi aporte', 'My contribution') }}
+      </button>
+      <button type="button" [attr.aria-pressed]="infoPage() === 2" (click)="infoPage.set(2)">
+        {{ i18n.text('Tecnologías', 'Technologies') }}
+      </button>
+    </div>
+    <div class="information-grid">
+      <div class="information-card" [class.info-inactive]="infoPage() !== 0">
+        <h3>{{ i18n.text('Descripción general', 'Overview') }}</h3>
+        <p class="project-full-description">{{ project().description }}</p>
+        <div
+          class="project-resources"
+          role="group"
+          [attr.aria-label]="i18n.text('Enlaces del proyecto', 'Project links')"
+        >
+          @if (project().githubUrl) {
+            <a
+              class="project-code-link"
+              [href]="project().githubUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#github-icon" /></svg>
+              {{ i18n.text('Ver código', 'View code') }}
+              @if (project().repoVisibility === 'private') {
+                <small>{{ i18n.text('privado', 'private') }}</small>
+              }
+            </a>
+          }
+          @if (project().demoUrl) {
+            <a [href]="project().demoUrl" target="_blank" rel="noopener noreferrer">{{
+              i18n.text('Abrir demo', 'Open demo')
+            }}</a>
+          }
+          @if (project().videoUrl) {
+            <a [href]="project().videoUrl" target="_blank" rel="noopener noreferrer">{{
+              i18n.text('Ver video', 'Watch video')
+            }}</a>
+          }
+        </div>
+        @if (project().repoVisibility === 'private') {
+          <p class="private-repository-note">
+            {{
+              i18n.text(
+                'El repositorio requiere acceso autorizado.',
+                'The repository requires authorized access.'
+              )
+            }}
+          </p>
+        }
+      </div>
+      <div class="information-card" [class.info-inactive]="infoPage() !== 1">
+        @if (project().contribution) {
+          <div class="project-module">
+            <h3>{{ i18n.text('Mi aporte', 'My contribution') }}</h3>
+            <p>{{ project().contribution }}</p>
+            @if (project().contributionUrl) {
+              <a [href]="project().contributionUrl" target="_blank" rel="noopener noreferrer">{{
+                i18n.text('Ver aporte en el código', 'View contribution in code')
+              }}</a>
+            }
+          </div>
+        }
+        @if (project().modules?.length) {
+          <div class="project-modules">
+            <h3>{{ i18n.text('Módulos del proyecto', 'Project modules') }}</h3>
+            <ul>
+              @for (module of project().modules; track module) {
+                <li>{{ module }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+      <div class="information-card" [class.info-inactive]="infoPage() !== 2">
+        <div class="project-stack">
+          <h3>{{ i18n.text('Tecnologías', 'Technologies') }}</h3>
+          <ul>
+            @for (tag of project().tags; track tag) {
+              <li>{{ tag }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section
+    id="sheet-activity-panel"
+    class="sheet-panel activity-panel"
+    role="tabpanel"
+    aria-labelledby="sheet-activity-tab"
+    [hidden]="activeTab() !== 'activity'"
+    tabindex="0"
+  >
+    @switch (project().id) {
+      @case ('vinculacion') {
+        <app-new-project-activity projectId="vinculacion" />
+      }
+      @case ('pantufladas') {
+        <app-new-project-activity projectId="pantufladas" />
+      }
+      @case ('riego') {
+        <app-additional-project-activity projectId="riego" />
+      }
+      @case ('agropay') {
+        <app-additional-project-activity projectId="agropay" />
+      }
+      @case ('rgb') {
+        <app-additional-project-activity projectId="rgb" />
+      }
+      @case ('novacore') {
+        <app-additional-project-activity projectId="novacore" />
+      }
+      @case ('finansmart') {
+        <section class="project-interaction" aria-labelledby="finance-demo-title">
+          <div class="interaction-heading">
+            <div>
+              <h3 id="finance-demo-title">
+                {{ i18n.text('Compara dos formas de pagar', 'Compare two repayment systems') }}
+              </h3>
+              <p>
+                {{
+                  i18n.text(
+                    'Ejemplo de USD 10.000 · tasa nominal anual 12 % · mismos datos para ambos sistemas.',
+                    'USD 10,000 example · 12% annual nominal rate · the same inputs for both systems.'
+                  )
+                }}
+              </p>
+            </div>
+            <span class="example-note">{{
+              i18n.text('Ejemplo interactivo', 'Interactive example')
+            }}</span>
+          </div>
+          <div class="loan-controls">
+            <label for="loan-months">{{ i18n.text('Plazo del ejemplo', 'Example term') }}</label>
+            <select id="loan-months" [value]="loanMonths()" (change)="changeLoanTerm($event)">
+              @for (months of loanTerms; track months) {
+                <option [value]="months" [selected]="months === loanMonths()">
+                  {{ months }} {{ i18n.text('meses', 'months') }}
+                </option>
+              }
+            </select>
+            <button type="button" class="sheet-secondary" (click)="resetLoan()">
+              {{ i18n.text('Reiniciar ejemplo', 'Reset example') }}
+            </button>
+          </div>
+          <div
+            class="loan-comparison"
+            aria-live="polite"
+            [attr.aria-label]="i18n.text('Comparación de cuotas', 'Payment comparison')"
+          >
+            <article>
+              <h4>{{ i18n.text('Sistema francés', 'French system') }}</h4>
+              <strong>{{ money(frenchLoan().rows[0].payment) }}</strong>
+              <p>
+                {{ i18n.text('Cuota mensual regular', 'Regular monthly payment') }} ·
+                {{ loanMonths() }} {{ i18n.text('meses', 'months') }}
+              </p>
+            </article>
+            <article>
+              <h4>{{ i18n.text('Sistema alemán', 'German system') }}</h4>
+              <strong>{{ money(germanLoan().rows[0].payment) }}</strong>
+              <p>
+                {{ i18n.text('Primera cuota · última', 'First payment · final') }}
+                {{ money(germanLoan().rows[loanMonths() - 1].payment) }}
+              </p>
+            </article>
+          </div>
+          <div
+            class="amortization-switch"
+            role="group"
+            [attr.aria-label]="i18n.text('Sistema de amortización', 'Amortization system')"
+          >
+            <button
+              type="button"
+              [attr.aria-pressed]="amortization() === 'french'"
+              (click)="changeAmortization('french')"
+            >
+              {{ i18n.text('Francesa', 'French') }}</button><button
+              type="button"
+              [attr.aria-pressed]="amortization() === 'german'"
+              (click)="changeAmortization('german')"
+            >
+              {{ i18n.text('Alemana', 'German') }}
+            </button>
+          </div>
+          <div class="loan-summary" aria-live="polite">
+            <div>
+              <span>{{ i18n.text('Primera cuota', 'First payment') }}</span><strong>{{
+                money(loan().rows[0].payment)
+              }}</strong>
+            </div>
+            <div>
+              <span>{{ i18n.text('Interés total', 'Total interest') }}</span><strong>{{
+                money(loan().totalInterest)
+              }}</strong>
+            </div>
+            <div>
+              <span>{{ i18n.text('Total a pagar', 'Total repayment') }}</span><strong>{{
+                money(loan().totalPaid)
+              }}</strong>
+            </div>
+          </div>
+          <p class="system-explanation">
+            {{
+              amortization() === 'french'
+                ? i18n.text(
+                    'Cuotas regulares. El interés disminuye y la parte que amortiza el capital aumenta.',
+                    'Regular payments. Interest decreases while the principal portion increases.'
+                  )
+                : i18n.text(
+                    'Amortización de capital regular. Las cuotas bajan a medida que disminuye el saldo.',
+                    'Regular principal repayment. Payments decrease as the outstanding balance falls.'
+                  )
+            }}
+          </p>
+          <button
+            type="button"
+            class="sheet-secondary schedule-link"
+            (click)="selectTab('schedule')"
+          >
+            {{ i18n.text('Ver las', 'View all') }} {{ loanMonths() }}
+            {{ i18n.text('cuotas', 'payments') }} →
+          </button>
+        </section>
+      }
+      @case ('sicop') {
+        <section class="project-interaction" aria-labelledby="policy-demo-title">
+          <div class="interaction-heading">
+            <div>
+              <h3 id="policy-demo-title">
+                {{
+                  i18n.text(
+                    'Sigue una póliza por el archivo',
+                    'Follow a policy through the archive'
+                  )
+                }}
+              </h3>
+              <p>
+                {{
+                  i18n.text(
+                    'Recorrido ilustrativo con datos ficticios.',
+                    'Illustrative workflow with fictional data.'
+                  )
+                }}
+              </p>
+            </div>
+            <span class="example-note">PZ-2026-014</span>
+          </div>
+          <div class="policy-document">
+            <div>
+              <span>{{ i18n.text('Póliza ficticia', 'Fictional policy') }}</span><strong>{{
+                i18n.text('Garantía de cumplimiento', 'Performance guarantee')
+              }}</strong>
+              <p>
+                {{ i18n.text('Monto asegurado', 'Insured amount') }} {{ money(50000) }} ·
+                {{ i18n.text('Contrato de ejemplo', 'Example contract') }}
+              </p>
+            </div>
+            <p class="policy-status" role="status">{{ policyStatus() }}</p>
+          </div>
+          <div
+            class="activity-lights"
+            [attr.aria-label]="i18n.text('Luces del archivo', 'Archive lights')"
+            [attr.data-stage]="policyStage()"
+          >
+            @for (step of policySteps(); track step; let index = $index) {
+              <span
+                [class.is-on]="index <= policyStage()"
+                [class.is-current]="index === policyStage()"
+                [attr.aria-label]="
+                  step +
+                  (index <= policyStage()
+                    ? i18n.text(': encendida', ': on')
+                    : i18n.text(': pendiente', ': pending'))
+                "
+              ></span>
+            }
+            <p>
+              {{
+                i18n.text(
+                  'Las luces del archivo reflejan este avance al volver al mapa.',
+                  'The archive lights reflect this progress when you return to the map.'
+                )
+              }}
+            </p>
+          </div>
+          <ol
+            class="policy-timeline"
+            [attr.aria-label]="i18n.text('Etapas de la póliza', 'Policy stages')"
+          >
+            @for (step of policySteps(); track step; let index = $index) {
+              <li
+                [class.done]="index < policyStage()"
+                [class.current]="index === policyStage()"
+                [attr.aria-current]="index === policyStage() ? 'step' : null"
+              >
+                <span aria-hidden="true">{{ index < policyStage() ? '✓' : index + 1 }}</span>{{
+                  step
+                }}
+              </li>
+            }
+          </ol>
+          <p class="policy-description">
+            @switch (policyStage()) {
+              @case (0) {
+                {{
+                  i18n.text(
+                    'La póliza está registrada y lista para revisar su documentación.',
+                    'The policy is registered and ready for a document review.'
+                  )
+                }}
+              }
+              @case (1) {
+                {{
+                  i18n.text(
+                    'La revisión jurídica comprueba los documentos y las condiciones del contrato ficticio.',
+                    'Legal review checks the documents and terms of the fictional contract.'
+                  )
+                }}
+              }
+              @case (2) {
+                {{
+                  i18n.text(
+                    'La validación financiera revisa el monto y la vigencia del ejemplo.',
+                    'Financial validation checks the amount and validity period of the example.'
+                  )
+                }}
+              }
+              @case (3) {
+                {{
+                  i18n.text(
+                    'Las dos revisiones del ejemplo están completas. La póliza figura como validada.',
+                    'Both example reviews are complete. The policy is now validated.'
+                  )
+                }}
+              }
+            }
+          </p>
+          <div class="interaction-actions">
+            @if (policyStage() < 3) {
+              <button type="button" class="sheet-primary" (click)="nextPolicyStage()">
+                {{ policyActions()[policyStage()] }} →
+              </button>
+            }
+            <button type="button" class="sheet-secondary" (click)="resetPolicy()">
+              {{ i18n.text('Reiniciar recorrido', 'Reset workflow') }}
+            </button>
+          </div>
+        </section>
+      }
+      @case ('chatquality') {
+        <section class="project-interaction" aria-labelledby="chat-demo-title">
+          <div class="interaction-heading">
+            <div>
+              <h3 id="chat-demo-title">
+                {{ i18n.text('Prueba los seis envíos', 'Try six message attempts') }}
+              </h3>
+              <p>
+                {{
+                  i18n.text(
+                    'Registro de ejemplo · misma IP · ventana de diez segundos.',
+                    'Example log · same IP · ten-second window.'
+                  )
+                }}
+              </p>
+            </div>
+            <span class="example-note">{{
+              i18n.text('Seis intentos · cinco permitidos', 'Six attempts · five allowed')
+            }}</span>
+          </div>
+          <div
+            class="activity-lights"
+            [attr.aria-label]="i18n.text('Indicadores de la torre', 'Tower indicators')"
+            [attr.data-count]="transmissions().length"
+          >
+            @for (index of [0, 1, 2, 3, 4, 5]; track index) {
+              <span
+                [class.is-on]="transmissions().length > index && transmissions()[index].accepted"
+                [class.is-blocked]="
+                  transmissions().length > index && !transmissions()[index].accepted
+                "
+                [attr.aria-label]="
+                  i18n.text('Envío ', 'Message ') +
+                  (index + 1) +
+                  (transmissions().length > index
+                    ? transmissions()[index].accepted
+                      ? i18n.text(': enviado', ': sent')
+                      : i18n.text(': bloqueado', ': blocked')
+                    : i18n.text(': pendiente', ': pending'))
+                "
+              ></span>
+            }
+            <p>
+              {{
+                i18n.text(
+                  'Los indicadores de la torre conservan el resultado al volver al mapa.',
+                  'The tower indicators retain this result when you return to the map.'
+                )
+              }}
+            </p>
+          </div>
+          <div class="interaction-actions">
+            <button
+              type="button"
+              class="sheet-primary"
+              (click)="sendSimulatedMessage()"
+              [disabled]="playing() || transmissions().length >= 6"
+            >
+              {{ i18n.text('Enviar mensaje simulado', 'Send simulated message') }}
+              <span aria-hidden="true">{{ transmissions().length }}/6</span>
+            </button>
+            <button
+              type="button"
+              class="sheet-secondary"
+              [disabled]="playing()"
+              (click)="playTransmissions()"
+            >
+              {{
+                playing()
+                  ? i18n.text('Reproduciendo…', 'Playing…')
+                  : i18n.text('Reproducir seis envíos', 'Play six attempts')
+              }}
+              <span aria-hidden="true">▷</span></button
+            ><button type="button" class="sheet-secondary" (click)="resetTransmissions()">
+              {{ i18n.text('Reiniciar envíos', 'Reset messages') }}
+            </button>
+          </div>
+          <div class="transmission-log" aria-live="polite">
+            @if (transmissions().length === 0) {
+              <p class="transmission-empty">
+                {{
+                  i18n.text(
+                    'Envía un mensaje o reproduce el registro. El tiempo simulado avanza con cada intento.',
+                    'Send a message or play the log. Simulated time advances with each attempt.'
+                  )
+                }}
+              </p>
+            }
+            @for (entry of transmissions(); track entry.index) {
+              <div class="transmission-row" [class.blocked]="!entry.accepted">
+                <span class="message-index">0{{ entry.index }}</span
+                ><span>{{ entry.seconds }} s</span><code>{{ entry.ip }}</code
+                ><strong>{{
+                  entry.accepted ? i18n.text('Enviado', 'Sent') : i18n.text('Bloqueado', 'Blocked')
+                }}</strong>
+              </div>
+            }
+          </div>
+          @if (transmissions().length === 6) {
+            <p class="transmission-result" role="status">
+              <strong>{{
+                i18n.text('El sexto envío fue bloqueado.', 'The sixth message was blocked.')
+              }}</strong>
+              {{
+                i18n.text(
+                  'La misma IP ya había enviado cinco mensajes aceptados a los 0, 2, 4, 6 y 8 segundos. El intento a los 9 segundos supera el límite de cinco mensajes por IP en diez segundos.',
+                  'The same IP had already sent five accepted messages at 0, 2, 4, 6 and 8 seconds. The attempt at 9 seconds exceeds the limit of five messages per IP in ten seconds.'
+                )
+              }}
+            </p>
+          }
+        </section>
+      }
+    }
+  </section>
+  @if (project().id === 'finansmart') {
+    <section
+      id="sheet-schedule-panel"
+      class="sheet-panel schedule-panel"
+      role="tabpanel"
+      aria-labelledby="sheet-schedule-tab"
+      [hidden]="activeTab() !== 'schedule'"
+      tabindex="0"
+    >
+      <div class="schedule-heading">
+        <div>
+          <h3>{{ i18n.text('Tabla de amortización', 'Amortization schedule') }}</h3>
+          <p>
+            {{ loanMonths() }} {{ i18n.text('meses · Valores en USD', 'months · Amounts in USD') }}
+          </p>
+        </div>
+        <div
+          class="amortization-switch"
+          role="group"
+          [attr.aria-label]="i18n.text('Sistema de amortización', 'Amortization system')"
+        >
+          <button
+            type="button"
+            [attr.aria-pressed]="amortization() === 'french'"
+            (click)="changeAmortization('french')"
+          >
+            {{ i18n.text('Francesa', 'French') }}
+          </button>
+          <button
+            type="button"
+            [attr.aria-pressed]="amortization() === 'german'"
+            (click)="changeAmortization('german')"
+          >
+            {{ i18n.text('Alemana', 'German') }}
+          </button>
+        </div>
+      </div>
+      <div class="sheet-table-wrap">
+        <table>
+          <caption>
+            {{
+              i18n.text('Amortización', 'Amortization')
+            }}
+            {{
+              amortization() === 'french'
+                ? i18n.text('francesa', '— French')
+                : i18n.text('alemana', '— German')
+            }}
+          </caption>
+          <thead>
+            <tr>
+              <th>{{ i18n.text('Mes', 'Month') }}</th>
+              <th>{{ i18n.text('Cuota', 'Payment') }}</th>
+              <th>{{ i18n.text('Interés', 'Interest') }}</th>
+              <th>{{ i18n.text('Capital', 'Principal') }}</th>
+              <th>{{ i18n.text('Saldo', 'Balance') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of visibleLoanRows(); track row.month) {
+              <tr>
+                <td>{{ row.month }}</td>
+                <td>{{ number(row.payment) }}</td>
+                <td>{{ number(row.interest) }}</td>
+                <td>{{ number(row.principal) }}</td>
+                <td>{{ number(row.balance) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        class="schedule-pagination"
+        [attr.aria-label]="i18n.text('Páginas de cuotas', 'Schedule pages')"
+      >
+        <button
+          type="button"
+          class="sheet-secondary"
+          (click)="changeSchedulePage(-1)"
+          [disabled]="loanPage() === 0"
+        >
+          {{ i18n.text('Anterior', 'Previous') }}
+        </button>
+        <span aria-live="polite"
+          >{{ loanPage() * schedulePageSize + 1 }}–{{
+            Math.min((loanPage() + 1) * schedulePageSize, loanMonths())
+          }}
+          {{ i18n.text('de', 'of') }} {{ loanMonths() }}</span
+        >
+        <button
+          type="button"
+          class="sheet-secondary"
+          (click)="changeSchedulePage(1)"
+          [disabled]="loanPage() === schedulePages() - 1"
+        >
+          {{ i18n.text('Siguiente', 'Next') }}
+        </button>
+      </div>
+    </section>
+  }
+  <div class="sheet-bottom">
+    <button type="button" class="sheet-back" (click)="requestClose()">
+      ← {{ i18n.text('Volver a esta parada', 'Return to this stop') }}
+    </button>
+  </div>
+</dialog>

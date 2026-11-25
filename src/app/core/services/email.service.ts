@@ -9,64 +9,46 @@ export interface EmailData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmailService {
-  private platformId = inject(PLATFORM_ID);
-  private emailjs: any = null;
-
-  constructor() {
-    if (isPlatformBrowser(this.platformId)) {
-      // Cargar EmailJS dinámicamente
-      import('@emailjs/browser').then((emailjs) => {
-        this.emailjs = emailjs.default;
-        // Inicializar EmailJS con tu Public Key
-        this.emailjs.init(environment.emailjs.publicKey);
-      }).catch((error) => {
-        console.error('Error loading EmailJS:', error);
-      });
-    }
-  }
+  private readonly platformId = inject(PLATFORM_ID);
+  readonly recipient = environment.emailjs.recipientEmail;
 
   async sendEmail(data: EmailData): Promise<{ success: boolean; message: string }> {
     if (!isPlatformBrowser(this.platformId)) {
       return { success: false, message: 'Email sending is only available in browser' };
     }
 
-    if (!this.emailjs) {
-      return { success: false, message: 'EmailJS is not loaded yet. Please try again.' };
-    }
-
     try {
+      const { default: emailjs } = await import('@emailjs/browser');
+      const { serviceId, templateId, publicKey } = environment.emailjs;
+      const name = data.name.trim();
+      const email = data.email.trim();
+      const message = data.message.trim();
+      const time = new Date().toLocaleString('es-EC', { timeZone: 'America/Guayaquil' });
       const templateParams = {
-        name: data.name, // Para {{name}} en "De Nombre"
-        nombre: data.name, // Para {{nombre}} en el contenido
-        email: data.email, // Para {{email}} en "Responder a" y en el contenido
-        correo: data.email, // Variable alternativa para mostrar el email en el contenido
-        mensaje: data.message, // Para {{mensaje}} en el contenido
-        message: data.message, // Variable alternativa para el mensaje
-        tiempo: new Date().toLocaleString('es-ES'), // Para {{tiempo}} en el contenido
+        name,
+        nombre: name,
+        email,
+        correo: email,
+        reply_to: email,
+        message,
+        mensaje: message,
+        title: 'Contacto desde el portafolio',
+        time,
+        tiempo: time,
       };
 
-      const response = await this.emailjs.send(
-        environment.emailjs.serviceId,
-        environment.emailjs.templateId,
-        templateParams
-      );
+      const response = await emailjs.send(serviceId, templateId, templateParams, { publicKey });
 
       if (response.status === 200) {
         return { success: true, message: 'Email sent successfully!' };
       } else {
         return { success: false, message: 'Failed to send email. Please try again.' };
       }
-    } catch (error: any) {
-      console.error('Error sending email:', error);
-      return { 
-        success: false, 
-        message: error.text || 'An error occurred while sending the email. Please try again.' 
-      };
+    } catch {
+      return { success: false, message: 'Failed to send email. Please try again.' };
     }
   }
 }
-
-

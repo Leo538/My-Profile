@@ -1,0 +1,56 @@
+<section class="new-activity" data-testid="new-project-activity" [attr.data-project]="projectId()">
+  @if (projectId() === 'vinculacion') {
+    <header>
+      <div>
+        <span class="eyebrow">{{ i18n.text('Riego conectado', 'Connected irrigation') }}</span>
+        <h3>{{ i18n.text('¿Regar o esperar?', 'Irrigate or wait?') }}</h3>
+      </div>
+      <span class="sample">{{ i18n.text('Ejemplo local', 'Local example') }}</span>
+    </header>
+    <p class="intro">{{ i18n.text('Combina la lectura del suelo con la probabilidad de lluvia.', 'Combine a soil reading with the probability of rain.') }}</p>
+    <div class="iot-layout">
+      <div class="sliders">
+        <label for="iot-soil"><span>{{ i18n.text('Humedad del suelo', 'Soil moisture') }} <output>{{ soil() }} %</output></span>
+          <input id="iot-soil" data-testid="iot-soil" type="range" min="0" max="100" step="1" [value]="soil()" (input)="setPercent('soil', $event)" />
+        </label>
+        <label for="iot-rain"><span>{{ i18n.text('Probabilidad de lluvia', 'Rain probability') }} <output>{{ rain() }} %</output></span>
+          <input id="iot-rain" data-testid="iot-rain" type="range" min="0" max="100" step="1" [value]="rain()" (input)="setPercent('rain', $event)" />
+        </label>
+      </div>
+      <div class="recommendation" [attr.data-decision]="recommendation()" aria-live="polite" aria-atomic="true">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5C18 16 10 23 10 31a14 14 0 0 0 28 0C38 23 30 16 24 5Z"/><path d="M18 30a7 7 0 0 0 7 7"/></svg>
+        <strong data-testid="iot-recommendation">{{ recommendationLabel() }}</strong>
+        <span data-testid="iot-duration">{{ recommendedTime() }}</span>
+        <p>{{ recommendationReason() }}</p>
+      </div>
+    </div>
+    <footer><p>{{ i18n.text('Reglas del proyecto original. Lecturas simuladas, sin sensores conectados.', 'Original project rules. Simulated readings, no sensors connected.') }}</p>
+      <button type="button" class="reset" data-testid="activity-reset" (click)="reset()">{{ i18n.text('Reiniciar', 'Reset') }}</button>
+    </footer>
+  } @else {
+    <header>
+      <div><span class="eyebrow">{{ i18n.text('Del lote a la venta', 'From batch to sale') }}</span><h3>Pantufladas · {{ i18n.text('en marcha', 'in motion') }}</h3></div>
+      <span class="sample">{{ i18n.text('Ejemplo local', 'Local example') }}</span>
+    </header>
+    <ol class="steps" [attr.aria-label]="i18n.text('Etapas del ejemplo', 'Example stages')">
+      @for (label of steps(); track $index) {
+        <li [class.done]="step() > $index" [class.current]="step() === $index" [attr.aria-current]="step() === $index ? 'step' : null"><span>{{ step() > $index ? '✓' : $index + 1 }}</span>{{ label }}</li>
+      }
+    </ol>
+    <div class="stock-grid" [attr.aria-label]="i18n.text('Inventario del ejemplo', 'Example inventory')">
+      <div><span>{{ i18n.text('Bodega', 'Warehouse') }}</span><strong data-testid="pantufladas-warehouse">{{ slippers().warehouse }} <small>{{ i18n.text('pares', 'pairs') }}</small></strong></div>
+      <div [class.lit]="slippers().transit > 0"><span>{{ i18n.text('En ruta', 'In transit') }}</span><strong data-testid="pantufladas-transit">{{ slippers().transit }} <small>{{ i18n.text('pares', 'pairs') }}</small></strong></div>
+      <div><span>{{ i18n.text('Local', 'Store') }}</span><strong data-testid="pantufladas-local">{{ slippers().local }} <small>{{ i18n.text('pares', 'pairs') }}</small></strong></div>
+      <div [class.lit]="step() === 4"><span>{{ i18n.text('Caja', 'Cash') }}</span><strong class="cash" data-testid="pantufladas-cash">{{ money(slippers().cashCents) }}</strong></div>
+    </div>
+    <div class="stock-state" [class.complete]="step() === 4" aria-live="polite" aria-atomic="true" data-testid="pantufladas-stage" [attr.data-stage]="slippers().stage">
+      <svg viewBox="0 0 48 48" aria-hidden="true" [attr.data-testid]="step() === 4 ? 'pantufladas-star' : null">
+        @if (step() === 4) { <path class="star" d="m24 4 6 13 14 2-10 10 2 15-12-7-12 7 2-15L4 19l14-2Z"/> }
+        @else { <path d="m7 15 17-8 17 8v21l-17 8-17-8Z"/><path d="m7 15 17 8 17-8M24 23v21M15 11l17 8v9"/> }
+      </svg>
+      <p>{{ stockHint() }}</p>
+    </div>
+    <div class="actions"><button type="button" class="primary" data-testid="pantufladas-next" (click)="advance()" [disabled]="step() === 4">{{ nextLabel() }} <span aria-hidden="true">{{ step() === 4 ? '✓' : '→' }}</span></button><button type="button" class="reset" data-testid="activity-reset" (click)="reset()">{{ i18n.text('Reiniciar', 'Reset') }}</button></div>
+    <p class="note">{{ i18n.text('Inventario ficticio · 1 par = USD 18 de ejemplo · sin operaciones reales.', 'Fictional inventory · 1 pair = USD 18 sample price · no real transactions.') }} <span data-testid="pantufladas-sold">{{ i18n.text('Vendidos:', 'Sold:') }} {{ slippers().sold }}</span></p>
+  }
+</section>

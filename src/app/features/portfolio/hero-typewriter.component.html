@@ -1,0 +1,13 @@
+<p class="typewriter-grid">
+  <span class="typewriter-sr">{{ accessibleText() }}</span>
+  @for (phrase of phrases(); track phrase) {
+    <span class="typewriter-spacer" aria-hidden="true">
+      {{ phrase }}<span class="cursor-slot"></span>
+    </span>
+  }
+  <span class="typed-line" aria-hidden="true">
+    <span class="typed-text">{{ text() }}</span><span class="cursor-slot"
+      ><span class="cursor"></span
+    ></span>
+  </span>
+</p>

@@ -1,0 +1,144 @@
+.open-stop:focus-visible {
+  outline: 2px solid #e3ad63;
+  outline-offset: 4px;
+}
+
+.map-controls {
+  position: absolute;
+  left: 4%;
+  bottom: 40px;
+  right: 4%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.keyboard-help {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #a5b3c6;
+  margin: 0 0 0 auto;
+  order: 3;
+}
+
+.keyboard-help > span:last-child {
+  margin-left: 7px;
+}
+
+.plaza-button {
+  border: 1px solid #c5ac805c;
+  background: #102034d9;
+  color: #dfd0b9;
+  border-radius: 5px;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.plaza-button:focus-visible {
+  outline: 2px solid #f5bc65;
+  outline-offset: 3px;
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #aebcd03b;
+  width: 22px;
+  height: 23px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-family: inherit;
+  color: #e7ddca;
+  background: #142035bf;
+}
+
+.open-stop {
+  border: 1px solid #d3ad72a6;
+  background: #1d2c40ed;
+  color: #f5e4c8;
+  border-radius: 4px;
+  padding: 9px 13px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  transform: translateX(-50%);
+}
+
+.open-stop .key {
+  border-color: #d3ad724a;
+}
+
+.touch-help {
+  display: none;
+}
+
+.map-message,
+.map-position {
+  pointer-events: none;
+  font-size: 10px;
+  color: #a5b3c6;
+}
+
+.map-message {
+  margin: 0 0 0 auto;
+}
+
+.map-position {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .map-controls {
+    left: 14px;
+    right: 14px;
+    bottom: 29px;
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+  .keyboard-help {
+    display: none;
+  }
+  .touch-help {
+    display: none;
+    margin: 0;
+    font-size: 11px;
+    max-width: 130px;
+    line-height: 1.5;
+    flex: 1;
+    color: #a5b3c6;
+  }
+  .open-stop {
+    padding: 7px 9px;
+    font-size: 11px;
+    min-height: 40px;
+    position: static;
+    transform: none;
+    margin-left: auto;
+  }
+  .open-stop .key {
+    display: none;
+  }
+  .plaza-button {
+    min-height: 40px;
+    font-size: 10px;
+    padding-inline: 9px;
+  }
+}

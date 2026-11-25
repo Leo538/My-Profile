@@ -1,0 +1,173 @@
+<main class="station">
+  <div #viewport class="viewport"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <header class="station-nav">
+    <a routerLink="/" class="back">← <span>Volver al portafolio</span></a>
+    <span class="station-label">LB / EXPERIENCIA INTERACTIVA</span>
+    <button
+      type="button"
+      class="reset"
+      (click)="reset()"
+      aria-label="Reiniciar reto y posición del robot"
+    >
+      ↻ Reiniciar
+    </button>
+  </header>
+  <section class="mission" aria-label="Misión actual">
+    <p class="eyebrow">AMBATO, ECUADOR · NIVEL 01</p>
+    <h1>Estación Ambato<span>.</span></h1>
+    <p class="mission-name">
+      ChatQuality <span class="separator">/</span>
+      {{ solved() ? 'Diagnóstico completado' : 'Investiga el mensaje bloqueado' }}
+    </p>
+  </section>
+  <div class="status" [class.complete]="solved()">
+    <span class="status-dot"></span>
+    {{ solved() ? 'SISTEMA DIAGNOSTICADO' : '5 ENVIADOS · 1 BLOQUEADO' }}
+  </div>
+  @if (!ready() && !error()) {
+    <p class="loading" role="status">Preparando el taller 3D…</p>
+  }
+  @if (error()) {
+    <div class="error" role="alert">
+      <h2>No se pudo iniciar el taller</h2>
+      <p>{{ error() }}</p>
+      <a routerLink="/">Volver al portafolio</a>
+    </div>
+  }
+  @if (near()) {
+    <button class="inspect" type="button" (click)="inspect()">
+      <kbd>E</kbd> Inspeccionar <span>↗</span>
+    </button>
+  }
+  <footer class="game-footer">
+    <div class="movement">
+      <div class="dpad" aria-label="Controles de movimiento">
+        <button
+          class="up"
+          aria-label="Mover adelante"
+          (pointerdown)="move($event, 'w')"
+          (pointerup)="release('w')"
+          (pointercancel)="release('w')"
+          (lostpointercapture)="release('w')"
+        >
+          ↑
+        </button>
+        <button
+          class="left"
+          aria-label="Mover a la izquierda"
+          (pointerdown)="move($event, 'a')"
+          (pointerup)="release('a')"
+          (pointercancel)="release('a')"
+          (lostpointercapture)="release('a')"
+        >
+          ←
+        </button>
+        <button
+          class="down"
+          aria-label="Mover atrás"
+          (pointerdown)="move($event, 's')"
+          (pointerup)="release('s')"
+          (pointercancel)="release('s')"
+          (lostpointercapture)="release('s')"
+        >
+          ↓
+        </button>
+        <button
+          class="right"
+          aria-label="Mover a la derecha"
+          (pointerdown)="move($event, 'd')"
+          (pointerup)="release('d')"
+          (pointercancel)="release('d')"
+          (lostpointercapture)="release('d')"
+        >
+          →
+        </button>
+      </div>
+      <p><strong>Explora el taller</strong><span>WASD / Flechas / Controles táctiles</span></p>
+    </div>
+    <p class="hint" aria-live="polite">
+      {{
+        near() ? 'Consola al alcance. Inspecciona el registro.' : 'Acércate a la consola iluminada.'
+      }}
+    </p>
+    <span class="simulation">SIMULACIÓN LOCAL</span>
+  </footer>
+  <dialog
+    #terminal
+    class="terminal-dialog"
+    (close)="resume()"
+    (cancel)="resume()"
+    aria-labelledby="terminal-title"
+  >
+    <div class="dialog-header">
+      <span class="eyebrow">TERMINAL 01 / REGISTRO DE ENVÍOS</span
+      ><button type="button" (click)="close()" aria-label="Cerrar consola">✕</button>
+    </div>
+    <h2 id="terminal-title">{{ solved() ? 'Conexión recuperada.' : 'Un mensaje no llegó.' }}</h2>
+    <p class="dialog-intro">
+      Seis intentos desde <code>192.0.2.38</code> en diez segundos. Todos contienen 24 caracteres y
+      la conexión está activa.
+    </p>
+    <div class="log-wrap">
+      <table>
+        <caption>
+          Registro simulado de ChatQuality
+        </caption>
+        <thead>
+          <tr>
+            <th>Envío</th>
+            <th>Tiempo</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of challenge.submissions; track entry.index) {
+            <tr>
+              <td>0{{ entry.index }}</td>
+              <td>00:0{{ entry.seconds }}</td>
+              <td>
+                <span [class.blocked]="!entry.accepted">{{
+                  entry.accepted ? 'Enviado' : 'Bloqueado'
+                }}</span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    @if (!solved()) {
+      <fieldset>
+        <legend>¿Por qué se bloqueó el sexto envío?</legend>
+        <div class="answers">
+          <button type="button" (click)="answer('length')">Texto demasiado largo</button>
+          <button type="button" (click)="answer('connection')">Pérdida de conexión</button>
+          <button type="button" (click)="answer('rate-limit')">Límite de envíos</button>
+        </div>
+      </fieldset>
+    }
+    @if (feedback()) {
+      <p class="feedback" [class.success]="solved()" role="status">{{ feedback() }}</p>
+    }
+    @if (solved()) {
+      <article class="project-unlocked">
+        <span class="eyebrow">PROYECTO DESCUBIERTO</span>
+        <h3>ChatQuality <span>↗</span></h3>
+        <p>
+          Regla de esta simulación — máximo cinco envíos aceptados por IP en una ventana de diez
+          segundos.
+        </p>
+        <p>
+          <strong>Evidencia</strong> · El quinto pasa a los 8 s. El sexto se bloquea a los 9 s,
+          desde la misma IP. La cuota se libera al salir de la ventana.
+        </p>
+        <small
+          >Reto demostrativo. Código y aporte del proyecto original pendientes de confirmar.</small
+        ><a routerLink="/" fragment="proyectos" (click)="close()"
+          >Ver proyectos en el portafolio →</a
+        >
+      </article>
+      <button type="button" class="play-again" (click)="reset()">Volver a jugar ↻</button>
+    }
+  </dialog>
+</main>

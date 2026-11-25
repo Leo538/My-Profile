@@ -1,0 +1,123 @@
+.portfolio-page .appearance-settings {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.portfolio-page .theme-switch {
+  position: relative;
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #52637c;
+  border-radius: 999px;
+  background: #111e30;
+}
+
+.portfolio-page .theme-hint {
+  visibility: hidden;
+  position: absolute;
+  z-index: 2;
+  inset-inline-end: 0;
+  top: 100%;
+  width: max-content;
+  max-width: 225px;
+  padding: 6px 9px;
+  border: 1px solid #63748d;
+  border-radius: 8px;
+  background: #142237;
+  color: #f2e3cb;
+  box-shadow: 0 6px 14px #050b17aa;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.portfolio-page .theme-switch:not(.hint-dismissed) button:focus-visible + .theme-hint {
+  visibility: visible;
+}
+
+@media (hover: hover) {
+  .portfolio-page .theme-switch:not(.hint-dismissed) .theme-option:hover .theme-hint {
+    visibility: visible;
+  }
+}
+
+.portfolio-page .theme-switch button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: #becbdb;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.portfolio-page .theme-switch button[aria-pressed='true'] {
+  border-color: #c89e64;
+  background: #6e4b2b6b;
+  color: #ffdaa2;
+}
+
+.portfolio-page .theme-switch button:hover {
+  color: #ffdaa2;
+}
+
+.portfolio-page .theme-switch button:focus-visible {
+  outline-offset: 2px;
+}
+
+.portfolio-page .theme-switch svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (761px <= width <= 960px) {
+  .portfolio-page .header-inner {
+    gap: 14px;
+  }
+  .portfolio-page nav {
+    gap: clamp(10px, 2vw, 19px);
+  }
+}
+
+@media (max-width: 760px) {
+  .portfolio-page .appearance-settings {
+    justify-content: space-between;
+    margin-top: 6px;
+    padding-top: 9px;
+    border-top: 1px solid #c9af8738;
+  }
+
+  .portfolio-page .appearance-settings .language-switch {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .portfolio-page .theme-switch button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .portfolio-page .theme-hint {
+    top: auto;
+    bottom: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-page .theme-switch button {
+    transition: none;
+  }
+}
