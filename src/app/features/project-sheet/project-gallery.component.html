@@ -1,0 +1,98 @@
+<figure
+  role="region"
+  [attr.aria-roledescription]="i18n.text('carrusel', 'carousel')"
+  [attr.aria-label]="i18n.text('Imágenes de ', 'Images of ') + projectName()"
+  (keydown)="onKeyDown($event)"
+>
+  @if (currentImage(); as image) {
+    <div
+      class="gallery-stage"
+      tabindex="0"
+      [attr.aria-label]="
+        i18n.text('Imagen ', 'Image ') + (index() + 1) + i18n.text(' de ', ' of ') + images().length
+      "
+      (pointerdown)="pointerDown($event)"
+      (pointerup)="pointerUp($event)"
+      (pointercancel)="cancelPointer()"
+    >
+      <img
+        [src]="image.url"
+        [alt]="i18n.text(image.alt, image.altEn)"
+        width="1440"
+        height="900"
+        decoding="async"
+        draggable="false"
+        (load)="imageReady.set(true)"
+        (error)="imageReady.set(true)"
+      />
+      @if (!imageReady()) {
+        <span class="gallery-loading" role="status">{{
+          i18n.text('Cargando imagen…', 'Loading image…')
+        }}</span>
+      }
+      @if (images().length > 1) {
+        <button
+          class="gallery-arrow gallery-previous"
+          type="button"
+          (click)="move(-1)"
+          (pointerdown)="$event.stopPropagation()"
+          [attr.aria-label]="i18n.text('Imagen anterior', 'Previous image')"
+          [attr.title]="i18n.text('Imagen anterior', 'Previous image')"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7" /></svg>
+        </button>
+        <button
+          class="gallery-arrow gallery-next"
+          type="button"
+          (click)="move(1)"
+          (pointerdown)="$event.stopPropagation()"
+          [attr.aria-label]="i18n.text('Imagen siguiente', 'Next image')"
+          [attr.title]="i18n.text('Imagen siguiente', 'Next image')"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5 7 7-7 7" /></svg>
+        </button>
+      }
+    </div>
+    <figcaption>
+      <span class="gallery-caption">{{ i18n.text(image.caption, image.captionEn) }}</span>
+      @if (images().length > 1) {
+        <div class="gallery-navigation">
+          <span class="gallery-count" aria-live="polite" aria-atomic="true"
+            >{{ index() + 1 }} / {{ images().length }}</span
+          >
+          <div
+            class="gallery-pagination"
+            role="group"
+            [attr.aria-label]="i18n.text('Elegir imagen', 'Choose image')"
+          >
+            @for (item of images(); track item.url; let position = $index) {
+              <button
+                type="button"
+                [attr.aria-label]="
+                  i18n.text('Ver imagen ', 'View image ') +
+                  (position + 1) +
+                  ': ' +
+                  i18n.text(item.caption, item.captionEn)
+                "
+                [attr.aria-pressed]="index() === position"
+                (click)="selectImage(position)"
+              >
+                <span></span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+      <a
+        [href]="image.url"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="i18n.text('Ver imagen completa', 'View full image')"
+        ><span class="image-link-wide">{{
+          i18n.text('Ver imagen completa', 'View full image')
+        }}</span
+        ><span class="image-link-short">{{ i18n.text('Ampliar', 'Enlarge') }}</span></a
+      >
+    </figcaption>
+  }
+</figure>

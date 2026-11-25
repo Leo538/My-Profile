@@ -1,0 +1,174 @@
+<div
+  #stage
+  class="journey-stage"
+  tabindex="0"
+  role="region"
+  [attr.aria-label]="
+    i18n.text(
+      'Mapa de proyectos. Usa WASD o flechas para mover al robot y E para abrir una parada cercana.',
+      'Project map. Use WASD or arrow keys to move the robot and E to open a nearby stop.'
+    )
+  "
+  [attr.data-current-stop]="currentStop()"
+  [attr.data-level]="currentLevel()"
+  [attr.data-visited-count]="visitedCount()"
+  [attr.data-journey-complete]="journeyComplete()"
+  [attr.data-policy-stage]="activity().policyStage"
+  [attr.data-chat-accepted]="acceptedCount()"
+  [attr.data-chat-blocked]="blockedCount()"
+  [class.is-ready]="ready()"
+  [class.has-error]="failed()"
+>
+  <div #canvasHost class="canvas-host" [attr.aria-busy]="!ready() && !failed()"></div>
+  <div class="map-intro">
+    <p>
+      {{
+        i18n.text(
+          'Nueve proyectos. Una estrella en la cima.',
+          'Nine projects. One star at the summit.'
+        )
+      }}
+    </p>
+    <span>{{
+      i18n.text(
+        'Acércate a un edificio y pulsa E, o toca su nombre.',
+        'Walk up to a building and press E, or tap its name.'
+      )
+    }}</span>
+  </div>
+  <div
+    class="level-navigation"
+    role="group"
+    [attr.aria-label]="i18n.text('Niveles del mapa', 'Map levels')"
+  >
+    @for (level of levels; track level) {
+      <button
+        type="button"
+        class="glass-control"
+        [attr.aria-pressed]="currentLevel() === level"
+        [class.level-complete]="isLevelComplete(level)"
+        [class.summit-level]="level === 3"
+        (click)="travelToLevel(level)"
+      >
+        {{
+          level === 0
+            ? i18n.text('Plaza', 'Plaza')
+            : level === 3
+              ? i18n.text('Cima', 'Summit')
+              : i18n.text('Terraza ', 'Terrace ') + level
+        }}
+        @if (level === 3) {
+          <span aria-hidden="true">★</span>
+        } @else if (isLevelComplete(level)) {
+          <span class="level-check" aria-hidden="true">✓</span>
+        }
+        @if (level !== 3) {
+          <svg class="glass-only glass-icon level-chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="assets/icons/liquid-glass.svg#chevron-down" />
+          </svg>
+        }
+      </button>
+    }
+  </div>
+  <div class="journey-progress" [class.is-complete]="journeyComplete()" aria-live="polite">
+    <span class="progress-glyph" aria-hidden="true">{{ journeyComplete() ? '★' : '◇' }}</span>
+    <svg class="glass-only glass-icon progress-star" viewBox="0 0 24 24" aria-hidden="true">
+      <use href="assets/icons/liquid-glass.svg#pantufladas" />
+    </svg>
+    <span>{{
+      journeyComplete()
+        ? i18n.text(
+            'Niveles completados · Pantufladas te espera',
+            'Levels complete · Pantufladas awaits'
+          )
+        : i18n.text('Camino a la estrella', 'Road to the star') + ' · ' + visitedCount() + '/8'
+    }}</span>
+  </div>
+  @if (currentLevel() === 0 && !travelling()) {
+    <button class="ramp-signpost" type="button" (click)="travelToLevel(1)">
+      {{ i18n.text('Terrazas', 'Terraces') }} <span aria-hidden="true">↑</span>
+    </button>
+  }
+  @if (!ready()) {
+    <div class="map-placeholder" aria-hidden="true"><span></span><i></i><i></i><i></i></div>
+  }
+  <div
+    class="map-stops"
+    [style.--stop-count]="visibleStops().length"
+    [attr.aria-label]="i18n.text('Paradas del recorrido', 'Journey stops')"
+  >
+    @for (stop of visibleStops(); track stop.id) {
+      <button
+        type="button"
+        class="station-pin"
+        [class.active]="nearest() === stop.id"
+        [class.featured-stop]="stop.id === 'pantufladas'"
+        [class.visited-stop]="visitedStops().includes(stop.id)"
+        [style.left.%]="stop.x"
+        [style.top.%]="stop.y"
+        [attr.aria-label]="i18n.text('Visitar ', 'Visit ') + stop.name"
+        (click)="travelTo(stop.id)"
+      >
+        <span class="pin-dot" aria-hidden="true">{{
+          stop.id === 'pantufladas' ? '★' : ''
+        }}</span><strong>{{ stop.name }}</strong
+        ><small>{{ i18n.text(stop.location, stop.locationEn) }}</small
+        ><span class="pin-arrow" aria-hidden="true">↗</span>
+        <svg class="glass-only glass-icon glass-pin-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <use href="assets/icons/liquid-glass.svg#arrow-up-right" />
+        </svg>
+      </button>
+    }
+  </div>
+  <div class="map-controls">
+    <button class="plaza-button" type="button" (click)="returnToEntrance()">
+      <span aria-hidden="true">↶</span>
+      <svg class="glass-only glass-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <use href="assets/icons/liquid-glass.svg#arrow-left" />
+      </svg>
+      {{ i18n.text('Volver a la plaza', 'Back to the plaza') }}
+    </button>
+    <p class="keyboard-help">
+      <span class="key">W</span><span class="key">A</span><span class="key">S</span
+      ><span class="key">D</span>
+      <span>{{ i18n.text('o flechas para caminar', 'or arrow keys to walk') }}</span>
+    </p>
+    <p class="touch-help">
+      {{ i18n.text('Toca una parada para visitarla', 'Tap a stop to visit it') }}
+    </p>
+    @if (nearest() && !travelling()) {
+      <button class="open-stop" type="button" (click)="openNearest()">
+        <span class="key">E</span> {{ i18n.text('Abrir', 'Open') }} {{ currentName }}
+        <span aria-hidden="true">↗</span>
+      </button>
+    }
+    @if (travelling()) {
+      <p class="map-message" role="status">{{ i18n.text('En camino…', 'On the way…') }}</p>
+    }
+    @if (failed()) {
+      <p class="map-message" role="status">
+        {{ i18n.text('Abre cada proyecto desde su parada.', 'Open each project from its stop.') }}
+      </p>
+    }
+  </div>
+  <div
+    class="scene-activity"
+    [attr.aria-label]="i18n.text('Estado de las actividades', 'Activity progress')"
+  >
+    <span
+      >SICOP <b>{{ activity().policyStage }}/3</b></span
+    >
+    <span
+      >ChatQuality
+      <b
+        >{{ acceptedCount() }} {{ i18n.text('enviados', 'sent') }} · {{ blockedCount() }}
+        {{ i18n.text('bloqueados', 'blocked') }}</b
+      ></span
+    >
+  </div>
+  <span class="map-position" aria-live="polite">{{
+    nearest()
+      ? i18n.text('Parada actual · ', 'Current stop · ') + currentName
+      : i18n.text('Elige tu próxima parada', 'Choose your next stop')
+  }}</span>
+</div>

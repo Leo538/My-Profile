@@ -1,3 +1,16 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/portfolio/portfolio.component').then((m) => m.PortfolioComponent),
+    title: 'Leonel Barros · Desarrollador de software',
+  },
+  {
+    path: 'explorar',
+    redirectTo: '/#mapa',
+    pathMatch: 'full',
+  },
+  { path: '**', redirectTo: '' },
+];

@@ -1,0 +1,370 @@
+:root:not([data-theme='liquid-glass']) .portfolio-page .glass-only {
+  display: none !important;
+}
+
+:root[data-theme='liquid-glass'] {
+  --lg-night: #071428;
+  --lg-cream: #f8eddc;
+  --lg-gold: #ffcb73;
+  --lg-line: #b4c9e57d;
+  --lg-warm-line: #ffd590e8;
+  --lg-duration: 210ms;
+  --lg-shell: min(1392px, 92.7vw);
+  --lg-radius: clamp(16px, 2vw, 30px);
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-only {
+  display: inline-flex;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-icon {
+  width: 1.28em;
+  height: 1.28em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* A tinted face, a curved internal reflection and separate cold and warm highlights. */
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  :is(
+    .glass-surface,
+    :where(
+      .project-menu,
+      .sheet-preview,
+      .information-grid,
+      .loan-comparison article,
+      .loan-summary,
+      .policy-document,
+      .transmission-log,
+      .result-card,
+      .recommendation,
+      .stock-grid > div,
+      .form-status,
+      .gallery-loading
+    )
+  ) {
+  --lg-face: #0b192de9;
+  --lg-silver: #faf3e5ba;
+  --lg-blue: #9bc6ffaf;
+  --lg-warm: #ffc67c9c;
+  --lg-silver-position: 8% -5%;
+  --lg-blue-position: 99% -5%;
+  --lg-warm-position: 91% 113%;
+  --lg-bend: radial-gradient(
+    ellipse 98% 157% at 115% -61%,
+    transparent 61%,
+    #a3c5ff35 62%,
+    #5472a442 65%,
+    #1d365534 72%,
+    transparent 74%
+  );
+  background:
+    radial-gradient(
+      ellipse 35% 48% at var(--lg-silver-position),
+      var(--lg-silver),
+      #a8bddc35 41%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse 45% 47% at var(--lg-blue-position),
+      var(--lg-blue),
+      #4277b148 42%,
+      transparent 78%
+    ),
+    radial-gradient(
+      ellipse 52% 53% at var(--lg-warm-position),
+      var(--lg-warm),
+      #ac7a4144 46%,
+      transparent 76%
+    ),
+    var(--lg-bend), linear-gradient(164deg, #54728a4d, transparent 39%, #030e224d 65%, #57749938),
+    var(--lg-face);
+  border: 1px solid var(--lg-line);
+  border-radius: var(--lg-radius);
+  box-shadow:
+    inset 0 1px 1px #fff8ed66,
+    inset 0 -1px 2px #a2c3e773,
+    inset 0 0 13px #a6c6f321,
+    inset 0 -15px 26px #030b18a6,
+    0 9px 22px #030b176b;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page .glass-lens:not(.project-dialog) {
+  position: relative;
+}
+
+/* Micro bevel. If masks are unavailable the face still has its drawn border and inset lights. */
+@supports (mask-composite: exclude) {
+  :root[data-theme='liquid-glass'] .portfolio-page .glass-lens::before,
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 17% 16% at var(--lg-warm-position, 91% 100%),
+        #fff8dd,
+        #ffce7eba 34%,
+        transparent 80%
+      ),
+      radial-gradient(
+        ellipse 31% 37% at var(--lg-silver-position, 8% 0%),
+        #fff9eb,
+        transparent 77%
+      ),
+      radial-gradient(
+        ellipse 38% 43% at var(--lg-blue-position, 100% 0%),
+        #c4dfff,
+        #91bbff78 44%,
+        transparent 77%
+      ),
+      radial-gradient(
+        ellipse 45% 43% at var(--lg-warm-position, 91% 100%),
+        #ffecd0,
+        #ffb75385 46%,
+        transparent 74%
+      ),
+      linear-gradient(137deg, #e4ecf454, #749bc210 40%, #92b6e569 74%, #f1d7ad37);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: glass-rim-in var(--lg-duration) ease-out both;
+  }
+}
+
+@keyframes glass-rim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Controls have a tighter, double-sided bevel. Their center stays dark so the text stays clear. */
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  :is(
+    .glass-control,
+    :where(
+      .button,
+      .menu-toggle,
+      .station-pin,
+      .ramp-signpost,
+      .open-stop,
+      .plaza-button,
+      .journey-progress,
+      .map-message,
+      .key,
+      .sheet-close,
+      .sheet-tabs > button,
+      .project-resources a,
+      .project-information-link,
+      .sheet-primary,
+      .sheet-secondary,
+      .sheet-back,
+      .amortization-switch button,
+      .information-switch button,
+      .gallery-arrow,
+      .extra-activity button,
+      .new-activity button,
+      .network-link,
+      .additional-code-link,
+      .additional-sheet-link,
+      .credential-links a
+    )
+  ) {
+  --lg-control-radius: 999px;
+  --lg-control-face: #0c1a31e6;
+  --lg-control-line: var(--lg-line);
+  --lg-control-crown: #fff5e0bd;
+  --lg-control-blue: #8fbdffb5;
+  --lg-control-base: #afc8ee66;
+  --lg-control-rim: #a6c1e968;
+  --lg-control-flash: #c4deff99;
+  --lg-control-halo: #79a7ee33;
+  --lg-control-sweep: 0%;
+  background:
+    radial-gradient(
+        ellipse 26% 75% at 17% -12%,
+        var(--lg-control-crown),
+        #c0d4f22c 55%,
+        transparent 80%
+      )
+      var(--lg-control-sweep) 0 / 133% 100%,
+    radial-gradient(ellipse 29% 28% at 53% 103%, var(--lg-control-flash), transparent 81%),
+    radial-gradient(
+      ellipse 47% 112% at 101% 4%,
+      var(--lg-control-blue),
+      #315a942b 61%,
+      transparent 80%
+    ),
+    radial-gradient(ellipse 70% 76% at 57% 125%, var(--lg-control-base), transparent 79%),
+    linear-gradient(170deg, #b8cdef42, #6380a323 27%, #020b199b 63%, #5d86b83b),
+    var(--lg-control-face);
+  background-repeat: no-repeat;
+  border: 1px solid var(--lg-control-line);
+  border-radius: var(--lg-control-radius);
+  box-shadow:
+    inset 0 1px 2px #fff8e58c,
+    inset 0 -1px 3px var(--lg-control-rim),
+    inset 0 0 10px var(--lg-control-halo),
+    0 4px 11px #020815a1,
+    0 0 10px var(--lg-control-halo);
+  color: var(--lg-control-text, var(--lg-cream));
+  transition:
+    background-position var(--lg-duration) ease,
+    box-shadow var(--lg-duration) ease,
+    border-color var(--lg-duration) ease;
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  :is(
+    .button.primary,
+    nav > .active,
+    .glass-project-open,
+    .project-code-link,
+    .sheet-primary,
+    .extra-activity button.primary,
+    .new-activity button.primary,
+    .open-stop,
+    .featured-stop,
+    .journey-progress.is-complete,
+    .level-navigation button[aria-pressed='true'],
+    .level-navigation button.level-complete,
+    .level-navigation .summit-level,
+    .sheet-tabs button[aria-selected='true'],
+    .information-switch button[aria-pressed='true'],
+    .amortization-switch button[aria-pressed='true']
+  ) {
+  --lg-control-face: #191c28ed;
+  --lg-control-line: var(--lg-warm-line);
+  --lg-control-crown: #fff6dfff;
+  --lg-control-blue: #ffd8a351;
+  --lg-control-base: #ffc65eff;
+  --lg-control-rim: #ffd484f9;
+  --lg-control-flash: #fff2bff5;
+  --lg-control-halo: #ffb44568;
+}
+
+@media (hover: hover) {
+  :root[data-theme='liquid-glass']
+    .portfolio-page
+    :is(
+      .glass-control,
+      .button,
+      .menu-toggle,
+      .station-pin,
+      .plaza-button,
+      .ramp-signpost,
+      .open-stop,
+      .sheet-close,
+      .sheet-tabs > button,
+      .project-resources a,
+      .project-information-link,
+      .sheet-primary,
+      .sheet-secondary,
+      .sheet-back,
+      .amortization-switch button,
+      .information-switch button,
+      .gallery-arrow,
+      .extra-activity button,
+      .new-activity button,
+      .network-link,
+      .additional-code-link,
+      .additional-sheet-link,
+      .credential-links a
+    ):where(button, a, summary):hover:not(:disabled) {
+    --lg-control-sweep: 58%;
+    border-color: #fff0cb;
+    box-shadow:
+      inset 0 1px 3px #fffaedc9,
+      inset 0 -2px 6px var(--lg-control-rim),
+      inset 0 0 11px var(--lg-control-halo),
+      0 6px 18px #030615b0,
+      0 0 15px var(--lg-control-halo);
+  }
+}
+
+:root[data-theme='liquid-glass']
+  .portfolio-page
+  :is(.reference-lower input, .reference-lower textarea, .loan-controls select) {
+  background: linear-gradient(170deg, #041020e8, #172d4892);
+  border-color: #8ca4c47a;
+  box-shadow:
+    inset 0 2px 6px #030a16a8,
+    inset 0 -1px 1px #c0d7f438;
+  border-radius: 10px;
+}
+
+:root[data-theme='liquid-glass'] .portfolio-page :is(input, textarea)::placeholder {
+  color: #afbed1;
+}
+
+/* Local optical sampling for the floating components. The scene and all images are untouched. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner::before,
+  :root[data-theme='liquid-glass']
+    .portfolio-page
+    :is(.appearance-settings, .project-dialog, .project-menu) {
+    -webkit-backdrop-filter: blur(12px) saturate(128%);
+    backdrop-filter: blur(12px) saturate(128%);
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page :is(.station-pin, .ramp-signpost, .open-stop) {
+    -webkit-backdrop-filter: blur(5px) saturate(125%);
+    backdrop-filter: blur(5px) saturate(125%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme='liquid-glass'] {
+    --lg-duration: 0ms;
+  }
+
+  :root[data-theme='liquid-glass'] .portfolio-page .glass-lens::before,
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner::after {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  :root[data-theme='liquid-glass'] .portfolio-page .header-inner::before,
+  :root[data-theme='liquid-glass']
+    .portfolio-page
+    :is(
+      .appearance-settings,
+      .project-dialog,
+      .project-menu,
+      .station-pin,
+      .ramp-signpost,
+      .open-stop
+    ) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  :root[data-theme='liquid-glass']
+    .portfolio-page
+    :is(.glass-surface, .station-pin, .ramp-signpost, .open-stop) {
+    --lg-face: #0b192d;
+    --lg-control-face: #0c1a31;
+  }
+}
+
+@media (forced-colors: active) {
+  .portfolio-page :is(.theme-switch, .language-switch) button[aria-pressed='true'] {
+    outline: 1px solid Highlight;
+    outline-offset: -2px;
+  }
+}

@@ -1,0 +1,80 @@
+.journey-progress {
+  position: absolute;
+  top: 16px;
+  right: 4%;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 40%;
+  padding: 7px 10px;
+  border: 1px solid #7e6d4d66;
+  border-radius: 6px;
+  background: #102033df;
+  color: #c9c7be;
+  font-size: 11px;
+  line-height: 1.35;
+  pointer-events: none;
+}
+.journey-progress > span:first-child {
+  color: #d8ad6f;
+  font-size: 15px;
+}
+.journey-progress.is-complete {
+  border-color: #d7a653;
+  color: #f5d3a0;
+  background: #32291fef;
+}
+.level-navigation button.level-complete {
+  border-color: #b99454;
+  color: #f1cc8a;
+}
+.level-navigation button.summit-level {
+  color: #ffd68e;
+}
+.level-navigation button span {
+  margin-left: 3px;
+  color: #e8bb6f;
+}
+.station-pin.visited-stop {
+  border-color: #b9955866;
+}
+.station-pin.featured-stop {
+  border-color: #e0ad58;
+  background: #382b1ee8;
+  box-shadow: 0 0 22px #efba5425;
+}
+.station-pin.featured-stop .pin-dot {
+  background: transparent;
+  box-shadow: none;
+  width: 15px;
+  height: 15px;
+  left: 7px;
+  top: 11px;
+  font-size: 15px;
+  color: #ffd17f;
+}
+@media (max-width: 700px) {
+  .journey-progress {
+    top: 114px;
+    left: 4%;
+    right: auto;
+    padding: 3px 8px;
+    max-width: 92%;
+    font-size: 10px;
+  }
+  .journey-progress > span:first-child {
+    font-size: 12px;
+  }
+  .level-navigation {
+    gap: 4px;
+    right: 4%;
+  }
+  .level-navigation button {
+    padding-inline: 8px;
+    font-size: 10px;
+  }
+  .station-pin.featured-stop strong::before {
+    content: '★ ';
+    color: #ffd17f;
+  }
+}
